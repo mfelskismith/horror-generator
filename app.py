@@ -17,34 +17,13 @@ df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 # ----------------------------
 # TITLE
 # ----------------------------
-st.markdown(
-    """
-    <style>
-    .fixed-header {
-        position: relative;
-        left: 50%;
-        right: 50%;
-        margin-left: -50vw;
-        margin-right: -50vw;
-        width: 100vw;
-        text-align: center;
-    }
+col1, col2, col3 = st.columns([1, 2, 1])
 
-    .fixed-header h2 {
-        margin: 0;
-        line-height: 1.2;
-    }
-    </style>
-
-    <div class="fixed-header">
-        <h2>
-            💀 Random Horror<br>
-            Movie Generator 🎬
-        </h2>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+with col2:
+    st.markdown(
+        "## 💀 Random Horror\nMovie Generator 🎬",
+        help=None
+    )
 
 # ----------------------------
 # COUNTRY FILTER
