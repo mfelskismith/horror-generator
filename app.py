@@ -176,7 +176,7 @@ st.markdown("""
 <style>
 div.stButton > button {
     height: 75px;
-    font-size: 32px;
+    font-size: 48px;
     font-weight: 700;
     border-radius: 12px;
     background: linear-gradient(90deg, #ff0033, #cc0000);
