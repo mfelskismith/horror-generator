@@ -25,11 +25,19 @@ with col2:
         """
         <div style="text-align:center; font-size:32px; font-weight:700; line-height:1.2;">
             💀 Random Horror<br>
-            Movie Picker 🎬
+            Movie Generator 🎬
         </div>
         """,
         unsafe_allow_html=True
     )
+
+# ----------------------------
+# FILTER NOTE
+# ----------------------------
+st.markdown(
+    "<p style='text-align:center; font-size:14px; color:gray;'>All Filters Optional</p>",
+    unsafe_allow_html=True
+)
 
 # ----------------------------
 # COUNTRY FILTER
@@ -99,7 +107,7 @@ else:
 query = st.text_input("Search title, director, or overview")
 
 # ----------------------------
-# FILTER DATA BASE
+# FILTER DATA
 # ----------------------------
 filtered = df.copy()
 
@@ -161,9 +169,20 @@ if query:
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
+# BIG PROMINENT BUTTON
+# ----------------------------
+st.markdown("<br>", unsafe_allow_html=True)
+
+clicked = st.button(
+    "🎲 Pick Random Horror Movie",
+    use_container_width=True,
+    type="primary"
+)
+
+# ----------------------------
 # RANDOM PICK
 # ----------------------------
-if st.button("🎲 Pick Random Horror Movie"):
+if clicked:
     if len(filtered) == 0:
         st.warning("No movies match your filters.")
     else:
@@ -180,7 +199,6 @@ if st.button("🎲 Pick Random Horror Movie"):
 
         st.write(f"**Rating:** {row['Vote Avg']}")
 
-        # NEW: vote count added here
         if pd.notna(row["Vote Count"]):
             st.write(f"**Votes:** {int(row['Vote Count'])}")
         else:
@@ -188,7 +206,16 @@ if st.button("🎲 Pick Random Horror Movie"):
 
         st.write(row["Overview"])
 
-        if pd.notna(row["Poster"]):
+        if pd.notna(row["Poster"]) and pd.notna(row["Letterboxd URL"]):
+            st.markdown(
+                f"""
+                <a href="{row['Letterboxd URL']}" target="_blank">
+                    <img src="{row['Poster']}" style="width:100%; border-radius:10px;">
+                </a>
+                """,
+                unsafe_allow_html=True
+            )
+        elif pd.notna(row["Poster"]):
             st.image(row["Poster"])
 
         st.markdown(f"[🔗 Letterboxd Link]({row['Letterboxd URL']})")
