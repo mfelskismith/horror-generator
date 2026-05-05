@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-from sentence_transformers import SentenceTransformer
 
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
@@ -16,37 +14,9 @@ df["Vote Avg"] = pd.to_numeric(df["Vote Avg"], errors="coerce")
 df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 
 # ----------------------------
-# SEMANTIC MODEL (cached)
-# ----------------------------
-@st.cache_resource
-def load_model():
-    return SentenceTransformer("all-MiniLM-L6-v2")
-
-model = load_model()
-
-# ----------------------------
-# BUILD SEARCH TEXT
-# ----------------------------
-df["search_text"] = (
-    df["Title"].fillna("") + " " +
-    df["Director"].fillna("") + " " +
-    df["Overview"].fillna("") + " " +
-    df.get("Genres", "").fillna("")
-)
-
-# ----------------------------
-# PRECOMPUTE EMBEDDINGS (cached)
-# ----------------------------
-@st.cache_data
-def compute_embeddings(texts):
-    return model.encode(texts, show_progress_bar=True)
-
-embeddings = compute_embeddings(df["search_text"].tolist())
-
-# ----------------------------
 # TITLE
 # ----------------------------
-st.markdown("# 🎬💀 Random Horror Movie Generator")
+st.markdown("# 💀 Random Horror Movie Generator")
 
 # ----------------------------
 # COUNTRY FILTER
@@ -88,7 +58,7 @@ min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
 min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
 
 # ----------------------------
-# GENRE FILTER
+# GENRE FILTER (NOW JUST ABOVE SEARCH)
 # ----------------------------
 if "Genres" in df.columns:
     genre_series = (
@@ -111,30 +81,14 @@ else:
     genres_selected = []
 
 # ----------------------------
-# SEARCH BAR (SEMANTIC)
+# SEARCH BAR (LAST)
 # ----------------------------
-query = st.text_input("Search movies (semantic search)")
+query = st.text_input("Search title, director, or description keyword")
 
 # ----------------------------
-# SEMANTIC RANKING
+# FILTER DATA
 # ----------------------------
 filtered = df.copy()
-
-if query:
-    query_vec = model.encode([query])[0]
-
-    sims = np.dot(embeddings, query_vec) / (
-        np.linalg.norm(embeddings, axis=1) * np.linalg.norm(query_vec)
-    )
-
-    filtered["score"] = sims
-
-    # keep top candidates for performance
-    filtered = filtered.sort_values("score", ascending=False).head(500)
-
-# ----------------------------
-# APPLY FILTERS
-# ----------------------------
 
 # Country filter
 if countries_selected:
@@ -143,15 +97,6 @@ if countries_selected:
         .fillna("")
         .astype(str)
         .apply(lambda x: any(c in x for c in countries_selected))
-    ]
-
-# Genre filter
-if genres_selected and "Genres" in df.columns:
-    filtered = filtered[
-        filtered["Genres"]
-        .fillna("")
-        .astype(str)
-        .apply(lambda x: any(g in x for g in genres_selected))
     ]
 
 # Year filter
@@ -164,13 +109,27 @@ filtered = filtered[
 filtered = filtered[filtered["Runtime"] >= min_runtime]
 filtered = filtered[filtered["Vote Avg"] >= min_rating]
 
-# ----------------------------
-# OUTPUT COUNT
-# ----------------------------
+# Genre filter (NOW APPLIED IN CORRECT POSITION)
+if genres_selected and "Genres" in df.columns:
+    filtered = filtered[
+        filtered["Genres"]
+        .fillna("")
+        .astype(str)
+        .apply(lambda x: any(g in x for g in genres_selected))
+    ]
+
+# Search filter
+if query:
+    filtered = filtered[
+        filtered["Title"].fillna("").str.contains(query, case=False, na=False) |
+        filtered["Director"].fillna("").str.contains(query, case=False, na=False) |
+        filtered["Overview"].fillna("").str.contains(query, case=False, na=False)
+    ]
+
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# RANDOM PICK (FROM RANKED SET)
+# RANDOM PICK
 # ----------------------------
 if st.button("🎲 Pick Random Horror Movie"):
     if len(filtered) == 0:
