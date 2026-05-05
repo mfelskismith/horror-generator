@@ -16,7 +16,12 @@ df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 st.title("🎬 Horror Movie Generator")
 
 # ----------------------------
-# COUNTRY LIST
+# SEARCH BAR
+# ----------------------------
+query = st.text_input("Search title, director, or overview")
+
+# ----------------------------
+# COUNTRY FILTER
 # ----------------------------
 country_series = (
     df["Country"]
@@ -36,7 +41,30 @@ countries_selected = st.multiselect(
 )
 
 # ----------------------------
-# YEAR RANGE SLIDER (NEW)
+# GENRE FILTER (NEW)
+# ----------------------------
+if "Genres" in df.columns:
+    genre_series = (
+        df["Genres"]
+        .dropna()
+        .astype(str)
+        .str.split(",")
+        .explode()
+        .str.strip()
+    )
+
+    genre_list = sorted(genre_series[genre_series != ""].unique())
+
+    genres_selected = st.multiselect(
+        "Select Genres",
+        genre_list,
+        default=[]
+    )
+else:
+    genres_selected = []
+
+# ----------------------------
+# YEAR + OTHER FILTERS
 # ----------------------------
 min_year = int(df["Year"].min())
 max_year = int(df["Year"].max())
@@ -48,9 +76,6 @@ year_range = st.slider(
     value=(min_year, max_year)
 )
 
-# ----------------------------
-# OTHER FILTERS
-# ----------------------------
 min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
 min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
 
@@ -58,6 +83,14 @@ min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
 # FILTER DATA
 # ----------------------------
 filtered = df.copy()
+
+# Search filter
+if query:
+    filtered = filtered[
+        filtered["Title"].fillna("").str.contains(query, case=False, na=False) |
+        filtered["Director"].fillna("").str.contains(query, case=False, na=False) |
+        filtered["Overview"].fillna("").str.contains(query, case=False, na=False)
+    ]
 
 # Country filter
 if countries_selected:
@@ -68,7 +101,16 @@ if countries_selected:
         .apply(lambda x: any(c in x for c in countries_selected))
     ]
 
-# Year filter (NEW)
+# Genre filter
+if genres_selected and "Genres" in df.columns:
+    filtered = filtered[
+        filtered["Genres"]
+        .fillna("")
+        .astype(str)
+        .apply(lambda x: any(g in x for g in genres_selected))
+    ]
+
+# Year filter
 filtered = filtered[
     (filtered["Year"] >= year_range[0]) &
     (filtered["Year"] <= year_range[1])
@@ -94,8 +136,11 @@ if st.button("🎲 Pick Random Horror Movie"):
         st.write(f"**Runtime:** {row['Runtime']} min")
         st.write(f"**Director:** {row['Director']}")
         st.write(f"**Country:** {row['Country']}")
-        st.write(f"**Rating:** {row['Vote Avg']}")
 
+        if "Genres" in df.columns:
+            st.write(f"**Genres:** {row['Genres']}")
+
+        st.write(f"**Rating:** {row['Vote Avg']}")
         st.write(row["Overview"])
 
         if pd.notna(row["Poster"]):
