@@ -8,14 +8,15 @@ st.set_page_config(page_title="Horror Generator", layout="centered")
 # ----------------------------
 df = pd.read_csv("horror_data.csv")
 
-# Clean numeric columns safely
+# Clean numeric columns
 df["Runtime"] = pd.to_numeric(df["Runtime"], errors="coerce")
 df["Vote Avg"] = pd.to_numeric(df["Vote Avg"], errors="coerce")
+df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 
 st.title("🎬 Horror Movie Generator")
 
 # ----------------------------
-# COUNTRY LIST CLEANING
+# COUNTRY LIST
 # ----------------------------
 country_series = (
     df["Country"]
@@ -35,17 +36,30 @@ countries_selected = st.multiselect(
 )
 
 # ----------------------------
-# FILTER CONTROLS
+# YEAR RANGE SLIDER (NEW)
+# ----------------------------
+min_year = int(df["Year"].min())
+max_year = int(df["Year"].max())
+
+year_range = st.slider(
+    "Release Year Range",
+    min_value=min_year,
+    max_value=max_year,
+    value=(min_year, max_year)
+)
+
+# ----------------------------
+# OTHER FILTERS
 # ----------------------------
 min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
 min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
 
 # ----------------------------
-# FILTER DATA (FIXED VERSION)
+# FILTER DATA
 # ----------------------------
 filtered = df.copy()
 
-# Country filter (SAFE VERSION — no apply() crash risk)
+# Country filter
 if countries_selected:
     filtered = filtered[
         filtered["Country"]
@@ -54,6 +68,12 @@ if countries_selected:
         .apply(lambda x: any(c in x for c in countries_selected))
     ]
 
+# Year filter (NEW)
+filtered = filtered[
+    (filtered["Year"] >= year_range[0]) &
+    (filtered["Year"] <= year_range[1])
+]
+
 # Runtime + rating filters
 filtered = filtered[filtered["Runtime"] >= min_runtime]
 filtered = filtered[filtered["Vote Avg"] >= min_rating]
@@ -61,7 +81,7 @@ filtered = filtered[filtered["Vote Avg"] >= min_rating]
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# RANDOM PICKER
+# RANDOM PICK
 # ----------------------------
 if st.button("🎲 Pick Random Horror Movie"):
     if len(filtered) == 0:
