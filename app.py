@@ -36,7 +36,7 @@ with col2:
 st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown(
-    "<p style='text-align:center; font-size:14px; color:gray; margin-bottom:5px;'>All Filters Optional</p>",
+    "<p style='text-align:center; font-size:14px; color:gray;'>All Filters Optional</p>",
     unsafe_allow_html=True
 )
 
@@ -170,7 +170,7 @@ if query:
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# BUTTON (glowing)
+# BUTTON STYLE
 # ----------------------------
 st.markdown("""
 <style>
@@ -200,7 +200,7 @@ clicked = st.button(
 )
 
 # ----------------------------
-# RANDOM PICK (FIXED CARD LAYOUT)
+# RANDOM PICK (FULL FIXED CARD)
 # ----------------------------
 if clicked:
     if len(filtered) == 0:
@@ -208,12 +208,13 @@ if clicked:
     else:
         row = filtered.sample(1).iloc[0]
 
-        votes = int(row["Vote Count"]) if pd.notna(row["Vote Count"]) else "N/A"
-
         st.markdown(
             f"""
             <div style="padding-top:10px;">
-                <h2 style="margin:0 0 6px 0;">{row['Title']}</h2>
+
+                <h2 style="margin:0 0 6px 0;">
+                    {row['Title']}
+                </h2>
 
                 <div style="font-size:14px; color:#666; margin-bottom:10px;">
                     <b>Year:</b> {row['Year']} • 
@@ -224,7 +225,7 @@ if clicked:
 
                 <div style="font-size:14px; margin-bottom:10px;">
                     <b>Rating:</b> {row['Vote Avg']} • 
-                    <b>Votes:</b> {votes}
+                    <b>Votes:</b> {int(row['Vote Count']) if pd.notna(row['Vote Count']) else 'N/A'}
                 </div>
 
                 <div style="margin-bottom:6px; line-height:1.4;">
@@ -235,6 +236,7 @@ if clicked:
                     <img src="{row['Poster']}" 
                          style="width:100%; border-radius:10px; display:block;">
                 </a>
+
             </div>
             """,
             unsafe_allow_html=True
