@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-df = pd.read_csv("/content/horror_data.csv")
+df = pd.read_csv("horror_data.csv")
 
 df["Runtime"] = pd.to_numeric(df["Runtime"], errors="coerce")
 df["Vote Avg"] = pd.to_numeric(df["Vote Avg"], errors="coerce")
