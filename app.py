@@ -14,9 +14,9 @@ df["Vote Avg"] = pd.to_numeric(df["Vote Avg"], errors="coerce")
 df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 
 # ----------------------------
-# TITLE (UPDATED)
+# TITLE (FIXED TO ONE LINE)
 # ----------------------------
-st.title("💀🎬 Random Horror Movie Generator")
+st.markdown("# 🎬 Random Horror Movie Generator 💀")
 
 # ----------------------------
 # COUNTRY FILTER
@@ -39,7 +39,7 @@ countries_selected = st.multiselect(
 )
 
 # ----------------------------
-# GENRE FILTER (UPDATED LABEL)
+# GENRE FILTER (MOVED ABOVE SEARCH)
 # ----------------------------
 if "Genres" in df.columns:
     genre_series = (
@@ -81,7 +81,7 @@ min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
 min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
 
 # ----------------------------
-# SEARCH BAR
+# SEARCH BAR (NOW LAST)
 # ----------------------------
 query = st.text_input("Search title, director, or overview")
 
