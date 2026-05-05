@@ -16,11 +16,6 @@ df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 st.title("🎬 Horror Movie Generator")
 
 # ----------------------------
-# SEARCH BAR
-# ----------------------------
-query = st.text_input("Search title, director, or overview")
-
-# ----------------------------
 # COUNTRY FILTER
 # ----------------------------
 country_series = (
@@ -41,7 +36,7 @@ countries_selected = st.multiselect(
 )
 
 # ----------------------------
-# GENRE FILTER (NEW)
+# GENRE FILTER
 # ----------------------------
 if "Genres" in df.columns:
     genre_series = (
@@ -64,7 +59,7 @@ else:
     genres_selected = []
 
 # ----------------------------
-# YEAR + OTHER FILTERS
+# YEAR FILTER
 # ----------------------------
 min_year = int(df["Year"].min())
 max_year = int(df["Year"].max())
@@ -76,21 +71,21 @@ year_range = st.slider(
     value=(min_year, max_year)
 )
 
+# ----------------------------
+# OTHER FILTERS
+# ----------------------------
 min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
 min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
+
+# ----------------------------
+# SEARCH BAR (MOVED TO LAST)
+# ----------------------------
+query = st.text_input("Search title, director, or overview")
 
 # ----------------------------
 # FILTER DATA
 # ----------------------------
 filtered = df.copy()
-
-# Search filter
-if query:
-    filtered = filtered[
-        filtered["Title"].fillna("").str.contains(query, case=False, na=False) |
-        filtered["Director"].fillna("").str.contains(query, case=False, na=False) |
-        filtered["Overview"].fillna("").str.contains(query, case=False, na=False)
-    ]
 
 # Country filter
 if countries_selected:
@@ -119,6 +114,14 @@ filtered = filtered[
 # Runtime + rating filters
 filtered = filtered[filtered["Runtime"] >= min_runtime]
 filtered = filtered[filtered["Vote Avg"] >= min_rating]
+
+# Search filter (APPLIED LAST logically)
+if query:
+    filtered = filtered[
+        filtered["Title"].fillna("").str.contains(query, case=False, na=False) |
+        filtered["Director"].fillna("").str.contains(query, case=False, na=False) |
+        filtered["Overview"].fillna("").str.contains(query, case=False, na=False)
+    ]
 
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
