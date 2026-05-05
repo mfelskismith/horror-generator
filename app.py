@@ -23,7 +23,7 @@ col1, col2, col3 = st.columns([1, 3, 1])
 with col2:
     st.markdown(
         """
-        <div style="text-align:center; font-size:32px; font-weight:700; line-height:1.2;">
+        <div style="text-align:center; font-size:32px; font-weight:700; line-height:1.2; margin-bottom:30px;">
             💀 Random Horror<br>
             Movie Generator 🎬
         </div>
@@ -32,10 +32,12 @@ with col2:
     )
 
 # ----------------------------
-# FILTER NOTE
+# FILTER NOTE (closer to filters)
 # ----------------------------
+st.markdown("<br>", unsafe_allow_html=True)
+
 st.markdown(
-    "<p style='text-align:center; font-size:14px; color:gray;'>All Filters Optional</p>",
+    "<p style='text-align:center; font-size:14px; color:gray; margin-bottom:5px;'>All Filters Optional</p>",
     unsafe_allow_html=True
 )
 
@@ -169,9 +171,18 @@ if query:
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# BIG PROMINENT BUTTON
+# BIG PROMINENT BUTTON (taller)
 # ----------------------------
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("""
+<style>
+div.stButton > button {
+    height: 70px;
+    font-size: 22px;
+    font-weight: 700;
+    border-radius: 10px;
+}
+</style>
+""", unsafe_allow_html=True)
 
 clicked = st.button(
     "🎲 Pick Random Horror Movie",
