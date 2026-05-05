@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import re
 
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
@@ -16,7 +17,7 @@ df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 # ----------------------------
 # TITLE
 # ----------------------------
-st.markdown("# 💀 Random Horror Movie Generator")
+st.markdown("# 🎬💀 Random Horror Movie Generator")
 
 # ----------------------------
 # COUNTRY FILTER
@@ -58,7 +59,7 @@ min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
 min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
 
 # ----------------------------
-# GENRE FILTER (NOW JUST ABOVE SEARCH)
+# GENRE FILTER
 # ----------------------------
 if "Genres" in df.columns:
     genre_series = (
@@ -83,10 +84,10 @@ else:
 # ----------------------------
 # SEARCH BAR (LAST)
 # ----------------------------
-query = st.text_input("Search title, director, or description keyword")
+query = st.text_input("Search title, director, or overview")
 
 # ----------------------------
-# FILTER DATA
+# FILTER DATA BASE (before search)
 # ----------------------------
 filtered = df.copy()
 
@@ -109,7 +110,7 @@ filtered = filtered[
 filtered = filtered[filtered["Runtime"] >= min_runtime]
 filtered = filtered[filtered["Vote Avg"] >= min_rating]
 
-# Genre filter (NOW APPLIED IN CORRECT POSITION)
+# Genre filter
 if genres_selected and "Genres" in df.columns:
     filtered = filtered[
         filtered["Genres"]
@@ -118,14 +119,38 @@ if genres_selected and "Genres" in df.columns:
         .apply(lambda x: any(g in x for g in genres_selected))
     ]
 
-# Search filter
+# ----------------------------
+# SEARCH FUNCTION (HIERARCHY FIX)
+# ----------------------------
+def word_match(text, query):
+    if pd.isna(text) or not query:
+        return False
+
+    text = str(text).lower()
+    query = query.lower().strip()
+
+    terms = query.split()
+
+    return all(
+        re.search(rf"\b{re.escape(term)}\b", text)
+        for term in terms
+    )
+
+# Apply search AFTER filters
 if query:
+    title_match = filtered["Title"].apply(lambda x: word_match(x, query))
+    director_match = filtered["Director"].apply(lambda x: word_match(x, query))
+    overview_match = filtered["Overview"].apply(lambda x: word_match(x, query))
+
     filtered = filtered[
-        filtered["Title"].fillna("").str.contains(query, case=False, na=False) |
-        filtered["Director"].fillna("").str.contains(query, case=False, na=False) |
-        filtered["Overview"].fillna("").str.contains(query, case=False, na=False)
+        title_match |
+        (director_match & ~title_match) |
+        (overview_match & ~title_match & ~director_match)
     ]
 
+# ----------------------------
+# OUTPUT COUNT
+# ----------------------------
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
