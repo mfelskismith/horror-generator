@@ -21,7 +21,7 @@ st.markdown(
     """
     <h2 style='text-align: center; margin-bottom: 0px;'>
       💀 Random Horror<br>
-        Movie Generator🎬
+        Movie Generator 🎬
     </h2>
     """,
     unsafe_allow_html=True
