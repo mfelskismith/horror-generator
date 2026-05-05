@@ -25,7 +25,7 @@ with col2:
         """
         <div style="text-align:center; font-size:32px; font-weight:700; line-height:1.2;">
             💀 Random Horror<br>
-            Movie Generator 🎬
+            Movie Picker 🎬
         </div>
         """,
         unsafe_allow_html=True
