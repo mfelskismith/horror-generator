@@ -9,7 +9,6 @@ st.set_page_config(page_title="Horror Generator", layout="centered")
 # ----------------------------
 df = pd.read_csv("horror_data.csv")
 
-# Clean numeric columns
 df["Runtime"] = pd.to_numeric(df["Runtime"], errors="coerce")
 df["Vote Avg"] = pd.to_numeric(df["Vote Avg"], errors="coerce")
 df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
@@ -32,7 +31,7 @@ with col2:
     )
 
 # ----------------------------
-# FILTER NOTE (closer to filters)
+# FILTER NOTE
 # ----------------------------
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -104,12 +103,12 @@ else:
     genres_selected = []
 
 # ----------------------------
-# SEARCH BAR
+# SEARCH
 # ----------------------------
 query = st.text_input("Search title, director, or overview")
 
 # ----------------------------
-# FILTER DATA
+# FILTERING
 # ----------------------------
 filtered = df.copy()
 
@@ -171,15 +170,26 @@ if query:
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# BIG PROMINENT BUTTON (taller)
+# GLOWING BUTTON STYLE
 # ----------------------------
 st.markdown("""
 <style>
 div.stButton > button {
-    height: 70px;
-    font-size: 22px;
+    height: 75px;
+    font-size: 28px;
     font-weight: 700;
-    border-radius: 10px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #ff0033, #cc0000);
+    color: white;
+    border: none;
+    box-shadow: 0 0 10px rgba(255, 0, 51, 0.4);
+    transition: all 0.25s ease-in-out;
+}
+
+/* hover glow */
+div.stButton > button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 18px rgba(255, 0, 51, 0.7);
 }
 </style>
 """, unsafe_allow_html=True)
