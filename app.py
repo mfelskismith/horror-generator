@@ -103,12 +103,12 @@ else:
     genres_selected = []
 
 # ----------------------------
-# SEARCH
+# SEARCH BAR
 # ----------------------------
 query = st.text_input("Search title, director, or overview")
 
 # ----------------------------
-# FILTERING
+# FILTER DATA
 # ----------------------------
 filtered = df.copy()
 
@@ -170,13 +170,13 @@ if query:
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# GLOWING BUTTON STYLE
+# GLOWING BUTTON (32px text)
 # ----------------------------
 st.markdown("""
 <style>
 div.stButton > button {
     height: 75px;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
     border-radius: 12px;
     background: linear-gradient(90deg, #ff0033, #cc0000);
