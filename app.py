@@ -185,6 +185,7 @@ if st.button("🎲 Pick Random Horror Movie"):
             st.write(f"**Genres:** {row['Genres']}")
 
         st.write(f"**Rating:** {row['Vote Avg']}")
+st.write(f"**Votes:** {int(row['Vote Count']) if pd.notna(row['Vote Count']) else 'N/A'}")
         st.write(row["Overview"])
 
         if pd.notna(row["Poster"]):
