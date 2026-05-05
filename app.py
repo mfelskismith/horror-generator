@@ -13,6 +13,7 @@ df = pd.read_csv("horror_data.csv")
 df["Runtime"] = pd.to_numeric(df["Runtime"], errors="coerce")
 df["Vote Avg"] = pd.to_numeric(df["Vote Avg"], errors="coerce")
 df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
+df["Vote Count"] = pd.to_numeric(df["Vote Count"], errors="coerce")
 
 # ----------------------------
 # TITLE
@@ -22,11 +23,9 @@ col1, col2, col3 = st.columns([1, 3, 1])
 with col2:
     st.markdown(
         """
-        <div style="text-align: center;">
-            <div style="font-size: 32px; font-weight: 700; line-height: 1.2;">
-                💀 Random Horror<br>
-                Movie Generator 🎬
-            </div>
+        <div style="text-align:center; font-size:32px; font-weight:700; line-height:1.2;">
+            💀 Random Horror<br>
+            Movie Generator 🎬
         </div>
         """,
         unsafe_allow_html=True
@@ -95,16 +94,15 @@ else:
     genres_selected = []
 
 # ----------------------------
-# SEARCH BAR (LAST)
+# SEARCH BAR
 # ----------------------------
 query = st.text_input("Search title, director, or overview")
 
 # ----------------------------
-# FILTER DATA BASE (before search)
+# FILTER DATA BASE
 # ----------------------------
 filtered = df.copy()
 
-# Country filter
 if countries_selected:
     filtered = filtered[
         filtered["Country"]
@@ -113,17 +111,14 @@ if countries_selected:
         .apply(lambda x: any(c in x for c in countries_selected))
     ]
 
-# Year filter
 filtered = filtered[
     (filtered["Year"] >= year_range[0]) &
     (filtered["Year"] <= year_range[1])
 ]
 
-# Runtime + rating filters
 filtered = filtered[filtered["Runtime"] >= min_runtime]
 filtered = filtered[filtered["Vote Avg"] >= min_rating]
 
-# Genre filter
 if genres_selected and "Genres" in df.columns:
     filtered = filtered[
         filtered["Genres"]
@@ -133,7 +128,7 @@ if genres_selected and "Genres" in df.columns:
     ]
 
 # ----------------------------
-# SEARCH FUNCTION (HIERARCHY FIX)
+# SEARCH FUNCTION
 # ----------------------------
 def word_match(text, query):
     if pd.isna(text) or not query:
@@ -149,7 +144,6 @@ def word_match(text, query):
         for term in terms
     )
 
-# Apply search AFTER filters
 if query:
     title_match = filtered["Title"].apply(lambda x: word_match(x, query))
     director_match = filtered["Director"].apply(lambda x: word_match(x, query))
@@ -185,7 +179,13 @@ if st.button("🎲 Pick Random Horror Movie"):
             st.write(f"**Genres:** {row['Genres']}")
 
         st.write(f"**Rating:** {row['Vote Avg']}")
-st.write(f"**Votes:** {int(row['Vote Count']) if pd.notna(row['Vote Count']) else 'N/A'}")
+
+        # NEW: vote count added here
+        if pd.notna(row["Vote Count"]):
+            st.write(f"**Votes:** {int(row['Vote Count'])}")
+        else:
+            st.write("**Votes:** N/A")
+
         st.write(row["Overview"])
 
         if pd.notna(row["Poster"]):
