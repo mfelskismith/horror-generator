@@ -14,9 +14,9 @@ df["Vote Avg"] = pd.to_numeric(df["Vote Avg"], errors="coerce")
 df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 
 # ----------------------------
-# TITLE (FIXED TO ONE LINE)
+# TITLE
 # ----------------------------
-st.markdown("# 💀🎬 Random Horror Movie Generator")
+st.markdown("#💀 Random Horror Movie Generator")
 
 # ----------------------------
 # COUNTRY FILTER
@@ -39,7 +39,26 @@ countries_selected = st.multiselect(
 )
 
 # ----------------------------
-# GENRE FILTER (MOVED ABOVE SEARCH)
+# YEAR FILTER
+# ----------------------------
+min_year = int(df["Year"].min())
+max_year = int(df["Year"].max())
+
+year_range = st.slider(
+    "Release Year Range",
+    min_value=min_year,
+    max_value=max_year,
+    value=(min_year, max_year)
+)
+
+# ----------------------------
+# OTHER FILTERS
+# ----------------------------
+min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
+min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
+
+# ----------------------------
+# GENRE FILTER (NOW JUST ABOVE SEARCH)
 # ----------------------------
 if "Genres" in df.columns:
     genre_series = (
@@ -62,26 +81,7 @@ else:
     genres_selected = []
 
 # ----------------------------
-# YEAR FILTER
-# ----------------------------
-min_year = int(df["Year"].min())
-max_year = int(df["Year"].max())
-
-year_range = st.slider(
-    "Release Year Range",
-    min_value=min_year,
-    max_value=max_year,
-    value=(min_year, max_year)
-)
-
-# ----------------------------
-# OTHER FILTERS
-# ----------------------------
-min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
-min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
-
-# ----------------------------
-# SEARCH BAR (NOW LAST)
+# SEARCH BAR (LAST)
 # ----------------------------
 query = st.text_input("Search title, director, or overview")
 
@@ -99,15 +99,6 @@ if countries_selected:
         .apply(lambda x: any(c in x for c in countries_selected))
     ]
 
-# Genre filter
-if genres_selected and "Genres" in df.columns:
-    filtered = filtered[
-        filtered["Genres"]
-        .fillna("")
-        .astype(str)
-        .apply(lambda x: any(g in x for g in genres_selected))
-    ]
-
 # Year filter
 filtered = filtered[
     (filtered["Year"] >= year_range[0]) &
@@ -117,6 +108,15 @@ filtered = filtered[
 # Runtime + rating filters
 filtered = filtered[filtered["Runtime"] >= min_runtime]
 filtered = filtered[filtered["Vote Avg"] >= min_rating]
+
+# Genre filter (NOW APPLIED IN CORRECT POSITION)
+if genres_selected and "Genres" in df.columns:
+    filtered = filtered[
+        filtered["Genres"]
+        .fillna("")
+        .astype(str)
+        .apply(lambda x: any(g in x for g in genres_selected))
+    ]
 
 # Search filter
 if query:
