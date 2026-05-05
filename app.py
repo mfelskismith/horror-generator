@@ -16,7 +16,7 @@ df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 # ----------------------------
 # TITLE (UPDATED)
 # ----------------------------
-st.title("🎬 Random Horror Movie Generator💀")
+st.title("💀🎬 Random Horror Movie Generator")
 
 # ----------------------------
 # COUNTRY FILTER
