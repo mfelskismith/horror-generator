@@ -13,7 +13,10 @@ df["Runtime"] = pd.to_numeric(df["Runtime"], errors="coerce")
 df["Vote Avg"] = pd.to_numeric(df["Vote Avg"], errors="coerce")
 df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 
-st.title("🎬 Horror Movie Generator")
+# ----------------------------
+# TITLE (UPDATED)
+# ----------------------------
+st.title("🎬 Random Horror Movie Generator 💀")
 
 # ----------------------------
 # COUNTRY FILTER
@@ -36,7 +39,7 @@ countries_selected = st.multiselect(
 )
 
 # ----------------------------
-# GENRE FILTER
+# GENRE FILTER (UPDATED LABEL)
 # ----------------------------
 if "Genres" in df.columns:
     genre_series = (
@@ -51,7 +54,7 @@ if "Genres" in df.columns:
     genre_list = sorted(genre_series[genre_series != ""].unique())
 
     genres_selected = st.multiselect(
-        "Select Genres",
+        "Select Secondary Genres",
         genre_list,
         default=[]
     )
@@ -78,7 +81,7 @@ min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
 min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
 
 # ----------------------------
-# SEARCH BAR (MOVED TO LAST)
+# SEARCH BAR
 # ----------------------------
 query = st.text_input("Search title, director, or overview")
 
@@ -115,7 +118,7 @@ filtered = filtered[
 filtered = filtered[filtered["Runtime"] >= min_runtime]
 filtered = filtered[filtered["Vote Avg"] >= min_rating]
 
-# Search filter (APPLIED LAST logically)
+# Search filter
 if query:
     filtered = filtered[
         filtered["Title"].fillna("").str.contains(query, case=False, na=False) |
