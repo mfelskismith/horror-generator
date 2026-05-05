@@ -17,12 +17,19 @@ df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 # ----------------------------
 # TITLE
 # ----------------------------
-col1, col2, col3 = st.columns([1, 2, 1])
+col1, col2, col3 = st.columns([1, 3, 1])
 
 with col2:
     st.markdown(
-        "## 💀 Random Horror\nMovie Generator 🎬",
-        help=None
+        """
+        <div style="text-align: center;">
+            <div style="font-size: 32px; font-weight: 700; line-height: 1.2;">
+                💀 Random Horror<br>
+                Movie Generator 🎬
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
 # ----------------------------
