@@ -170,13 +170,13 @@ if query:
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# GLOWING BUTTON (36px text)
+# GLOWING BUTTON
 # ----------------------------
 st.markdown("""
 <style>
 div.stButton > button {
     height: 75px;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 700;
     border-radius: 12px;
     background: linear-gradient(90deg, #ff0033, #cc0000);
@@ -186,7 +186,6 @@ div.stButton > button {
     transition: all 0.25s ease-in-out;
 }
 
-/* hover glow */
 div.stButton > button:hover {
     transform: scale(1.02);
     box-shadow: 0 0 18px rgba(255, 0, 51, 0.7);
@@ -225,18 +224,35 @@ if clicked:
         else:
             st.write("**Votes:** N/A")
 
-        st.write(row["Overview"])
+        # ----------------------------
+        # TIGHTER OVERVIEW + IMAGE SPACING FIX
+        # ----------------------------
+        st.markdown(
+            f"<div style='margin-bottom:10px;'>{row['Overview']}</div>",
+            unsafe_allow_html=True
+        )
 
         if pd.notna(row["Poster"]) and pd.notna(row["Letterboxd URL"]):
             st.markdown(
                 f"""
-                <a href="{row['Letterboxd URL']}" target="_blank">
-                    <img src="{row['Poster']}" style="width:100%; border-radius:10px;">
-                </a>
+                <div style="margin-top:5px;">
+                    <a href="{row['Letterboxd URL']}" target="_blank">
+                        <img src="{row['Poster']}" 
+                             style="width:100%; border-radius:10px; display:block;">
+                    </a>
+                </div>
                 """,
                 unsafe_allow_html=True
             )
         elif pd.notna(row["Poster"]):
-            st.image(row["Poster"])
+            st.markdown(
+                f"""
+                <div style="margin-top:5px;">
+                    <img src="{row['Poster']}" 
+                         style="width:100%; border-radius:10px; display:block;">
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
         st.markdown(f"[🔗 Letterboxd Link]({row['Letterboxd URL']})")
