@@ -222,10 +222,10 @@ if clicked:
         if pd.notna(row["Vote Count"]):
             st.write(f"**Votes:** {int(row['Vote Count'])}")
         else:
-            st.write("**Votes:** N/A")
+            st.write(f"**Votes:** N/A")
 
         # ----------------------------
-        # TIGHT CARD: OVERVIEW + IMAGE (FIXED SPACING)
+        # OVERVIEW + IMAGE (FIXED)
         # ----------------------------
         st.markdown(
             f"""
@@ -234,10 +234,8 @@ if clicked:
             </div>
 
             <div style="margin-top:4px;">
-                <a href="{row['Letterboxd URL']}" target="_blank">
-                    <img src="{row['Poster']}" 
-                         style="width:100%; border-radius:10px; display:block; margin-top:0px;">
-                </a>
+                <img src="{row['Poster']}" 
+                     style="width:100%; border-radius:10px; display:block;">
             </div>
             """,
             unsafe_allow_html=True
