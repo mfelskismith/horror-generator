@@ -20,21 +20,24 @@ df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 st.markdown(
     """
     <style>
-    .title-container {
+    .fixed-header {
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
         width: 100vw;
-        margin-left: calc(-50vw + 50%);
-        display: flex;
-        justify-content: center;
-    }
-    .title {
         text-align: center;
+    }
+
+    .fixed-header h2 {
         margin: 0;
         line-height: 1.2;
     }
     </style>
 
-    <div class="title-container">
-        <h2 class="title">
+    <div class="fixed-header">
+        <h2>
             💀 Random Horror<br>
             Movie Generator 🎬
         </h2>
