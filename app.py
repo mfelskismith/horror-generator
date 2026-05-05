@@ -17,7 +17,15 @@ df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 # ----------------------------
 # TITLE
 # ----------------------------
-st.markdown("# 🎬💀 Random Horror Movie Generator")
+st.markdown(
+    """
+    <h2 style='text-align: center; margin-bottom: 0px;'>
+        🎬💀 Random Horror<br>
+        Movie Generator
+    </h2>
+    """,
+    unsafe_allow_html=True
+)
 
 # ----------------------------
 # COUNTRY FILTER
