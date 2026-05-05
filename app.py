@@ -36,7 +36,7 @@ with col2:
 st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown(
-    "<p style='text-align:center; font-size:14px; color:gray;'>All Filters Optional</p>",
+    "<p style='text-align:center; font-size:14px; color:gray; margin-bottom:5px;'>All Filters Optional</p>",
     unsafe_allow_html=True
 )
 
@@ -170,7 +170,7 @@ if query:
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# BUTTON STYLE
+# GLOWING BUTTON
 # ----------------------------
 st.markdown("""
 <style>
@@ -200,7 +200,7 @@ clicked = st.button(
 )
 
 # ----------------------------
-# RANDOM PICK (FULL FIXED CARD)
+# RANDOM PICK
 # ----------------------------
 if clicked:
     if len(filtered) == 0:
@@ -208,36 +208,39 @@ if clicked:
     else:
         row = filtered.sample(1).iloc[0]
 
+        st.subheader(row["Title"])
+        st.write(f"**Year:** {row['Year']}")
+        st.write(f"**Runtime:** {row['Runtime']} min")
+        st.write(f"**Director:** {row['Director']}")
+        st.write(f"**Country:** {row['Country']}")
+
+        if "Genres" in df.columns:
+            st.write(f"**Genres:** {row['Genres']}")
+
+        st.write(f"**Rating:** {row['Vote Avg']}")
+
+        if pd.notna(row["Vote Count"]):
+            st.write(f"**Votes:** {int(row['Vote Count'])}")
+        else:
+            st.write("**Votes:** N/A")
+
+        # ----------------------------
+        # TIGHT CARD: OVERVIEW + IMAGE (FIXED SPACING)
+        # ----------------------------
         st.markdown(
             f"""
-            <div style="padding-top:10px;">
+            <div style="margin-bottom:6px; line-height:1.4;">
+                {row['Overview']}
+            </div>
 
-                <h2 style="margin:0 0 6px 0;">
-                    {row['Title']}
-                </h2>
-
-                <div style="font-size:14px; color:#666; margin-bottom:10px;">
-                    <b>Year:</b> {row['Year']} • 
-                    <b>Runtime:</b> {row['Runtime']} min • 
-                    <b>Director:</b> {row['Director']} • 
-                    <b>Country:</b> {row['Country']}
-                </div>
-
-                <div style="font-size:14px; margin-bottom:10px;">
-                    <b>Rating:</b> {row['Vote Avg']} • 
-                    <b>Votes:</b> {int(row['Vote Count']) if pd.notna(row['Vote Count']) else 'N/A'}
-                </div>
-
-                <div style="margin-bottom:6px; line-height:1.4;">
-                    {row['Overview']}
-                </div>
-
+            <div style="margin-top:4px;">
                 <a href="{row['Letterboxd URL']}" target="_blank">
                     <img src="{row['Poster']}" 
-                         style="width:100%; border-radius:10px; display:block;">
+                         style="width:100%; border-radius:10px; display:block; margin-top:0px;">
                 </a>
-
             </div>
             """,
             unsafe_allow_html=True
         )
+
+        st.markdown(f"[🔗 Letterboxd Link]({row['Letterboxd URL']})")
