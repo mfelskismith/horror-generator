@@ -227,14 +227,18 @@ if clicked:
         # ----------------------------
         # OVERVIEW + IMAGE (FIXED)
         # ----------------------------
-       st.markdown(
-    f"""
-    <div style="line-height:1.4; margin-bottom:4px;">
-        {row['Overview']}
-    </div>
+        st.markdown(
+            f"""
+            <div style="margin-bottom:6px; line-height:1.4;">
+                {row['Overview']}
+            </div>
 
-    <img src="{row['Poster']}" 
-         style="width:100%; border-radius:10px; display:block; margin-top:0px;">
-    """,
-    unsafe_allow_html=True
-)
+            <div style="margin-top:4px;">
+                <img src="{row['Poster']}" 
+                     style="width:100%; border-radius:10px; display:block;">
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        st.markdown(f"[🔗 Letterboxd Link]({row['Letterboxd URL']})")
