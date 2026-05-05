@@ -225,34 +225,22 @@ if clicked:
             st.write("**Votes:** N/A")
 
         # ----------------------------
-        # TIGHTER OVERVIEW + IMAGE SPACING FIX
+        # TIGHT CARD: OVERVIEW + IMAGE (FIXED SPACING)
         # ----------------------------
         st.markdown(
-            f"<div style='margin-bottom:10px;'>{row['Overview']}</div>",
+            f"""
+            <div style="margin-bottom:6px; line-height:1.4;">
+                {row['Overview']}
+            </div>
+
+            <div style="margin-top:4px;">
+                <a href="{row['Letterboxd URL']}" target="_blank">
+                    <img src="{row['Poster']}" 
+                         style="width:100%; border-radius:10px; display:block; margin-top:0px;">
+                </a>
+            </div>
+            """,
             unsafe_allow_html=True
         )
-
-        if pd.notna(row["Poster"]) and pd.notna(row["Letterboxd URL"]):
-            st.markdown(
-                f"""
-                <div style="margin-top:5px;">
-                    <a href="{row['Letterboxd URL']}" target="_blank">
-                        <img src="{row['Poster']}" 
-                             style="width:100%; border-radius:10px; display:block;">
-                    </a>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        elif pd.notna(row["Poster"]):
-            st.markdown(
-                f"""
-                <div style="margin-top:5px;">
-                    <img src="{row['Poster']}" 
-                         style="width:100%; border-radius:10px; display:block;">
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
 
         st.markdown(f"[🔗 Letterboxd Link]({row['Letterboxd URL']})")
