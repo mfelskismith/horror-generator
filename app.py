@@ -83,7 +83,7 @@ else:
 # ----------------------------
 # SEARCH BAR (LAST)
 # ----------------------------
-query = st.text_input("Search title, director, or overview")
+query = st.text_input("Search title, director, or overview keyword")
 
 # ----------------------------
 # FILTER DATA
