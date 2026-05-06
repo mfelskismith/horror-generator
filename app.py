@@ -36,7 +36,7 @@ with col2:
 st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown(
-    "<p style='text-align:center; font-size:14px; color:gray; margin-bottom:5px;'>All Filters Optional</p>",
+    "<p style='text-align:center; font-size:14px; color:gray;'>All Filters Optional</p>",
     unsafe_allow_html=True
 )
 
@@ -170,13 +170,13 @@ if query:
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# GLOWING BUTTON
+# BUTTON STYLE
 # ----------------------------
 st.markdown("""
 <style>
 div.stButton > button {
     height: 75px;
-    font-size: 48px;
+    font-size: 32px;
     font-weight: 700;
     border-radius: 12px;
     background: linear-gradient(90deg, #ff0033, #cc0000);
@@ -200,7 +200,7 @@ clicked = st.button(
 )
 
 # ----------------------------
-# RANDOM PICK
+# RANDOM PICK (RESTORED STREAMLIT LAYOUT)
 # ----------------------------
 if clicked:
     if len(filtered) == 0:
@@ -209,6 +209,7 @@ if clicked:
         row = filtered.sample(1).iloc[0]
 
         st.subheader(row["Title"])
+
         st.write(f"**Year:** {row['Year']}")
         st.write(f"**Runtime:** {row['Runtime']} min")
         st.write(f"**Director:** {row['Director']}")
@@ -222,23 +223,13 @@ if clicked:
         if pd.notna(row["Vote Count"]):
             st.write(f"**Votes:** {int(row['Vote Count'])}")
         else:
-            st.write(f"**Votes:** N/A")
+            st.write("**Votes:** N/A")
 
-        # ----------------------------
-        # OVERVIEW + IMAGE (FIXED)
-        # ----------------------------
-        st.markdown(
-            f"""
-            <div style="margin-bottom:6px; line-height:1.4;">
-                {row['Overview']}
-            </div>
+        # Overview (standard Streamlit spacing)
+        st.write(row["Overview"])
 
-            <div style="margin-top:4px;">
-                <img src="{row['Poster']}" 
-                     style="width:100%; border-radius:10px; display:block;">
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Image (standard Streamlit spacing)
+        st.image(row["Poster"], use_container_width=True)
 
+        # Link (explicit)
         st.markdown(f"[🔗 Letterboxd Link]({row['Letterboxd URL']})")
