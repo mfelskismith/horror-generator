@@ -5,11 +5,11 @@ import re
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
 # ----------------------------
-# HORROR FONT IMPORT
+# HORROR FONT IMPORT (NOSIFER)
 # ----------------------------
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
 </style>
 """, unsafe_allow_html=True)
 
@@ -34,7 +34,7 @@ with col2:
         <div style="
             text-align:center;
             font-size:52px;
-            font-family: 'Creepster', cursive;
+            font-family: 'Nosifer', cursive;
             line-height:1.1;
             margin-bottom:30px;
         ">
@@ -185,7 +185,7 @@ if query:
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# BUTTON STYLE (CREEPER FONT)
+# BUTTON STYLE (NOSIFER FONT)
 # ----------------------------
 st.markdown("""
 <style>
@@ -203,7 +203,7 @@ div.stButton > button {
 div.stButton > button p,
 div.stButton > button span {
     font-size: 32px !important;
-    font-family: 'Creepster', cursive !important;
+    font-family: 'Nosifer', cursive !important;
     letter-spacing: 1px;
 }
 
