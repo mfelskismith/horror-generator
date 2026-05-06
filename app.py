@@ -91,17 +91,23 @@ st.markdown(
 # ----------------------------
 # HORROR / THRILLER TOGGLE
 # ----------------------------
-st.markdown(
-    """
-    <div style="font-size:22px; margin-bottom:-18px;">
-        Include "Non-Horror" Thrillers
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<style>
+/* Toggle label text */
+div[data-testid="stToggle"] label div[data-testid="stMarkdownContainer"] p {
+    font-size: 24px !important;
+}
+
+/* Optional: slightly enlarge the switch too */
+div[data-testid="stToggle"] {
+    transform: scale(1.08);
+    transform-origin: left center;
+}
+</style>
+""", unsafe_allow_html=True)
 
 include_non_horror_thrillers = st.toggle(
-    " ",
+    'Include "Non-Horror" Thrillers',
     value=False
 )
 
