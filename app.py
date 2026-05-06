@@ -38,38 +38,45 @@ df["Country"] = (
 )
 
 # ----------------------------
-# TITLE
+# TITLE / BANNER
 # ----------------------------
-col1, col2, col3 = st.columns([1, 3, 1])
+st.markdown(
+    """
+    <style>
+    .main-title-banner {
+        text-align: center;
+        font-family: 'Rubik Glitch', cursive;
+        font-size: 46px;
+        line-height: 1.1;
+        margin: 10px auto 30px auto;
+        padding: 18px 12px;
+        max-width: 760px;
 
-with col2:
-    st.markdown(
-        """
-        <style>
-        .main-title {
-            text-align: center;
-            font-size: 44px;
-            font-family: 'Rubik Glitch', cursive;
-            line-height: 1.1;
-            margin-bottom: 30px;
+        border: 3px solid #b00000;
+        border-radius: 18px;
+
+        color: #ffffff;
+        background: #050505;
+
+        box-shadow: 0 0 14px rgba(255, 0, 0, 0.35);
+    }
+
+    @media (max-width: 768px) {
+        .main-title-banner {
+            font-size: 30px;
+            padding: 14px 8px;
+            margin-bottom: 22px;
         }
+    }
+    </style>
 
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 30px;
-                line-height: 1.15;
-                margin-bottom: 20px;
-            }
-        }
-        </style>
-
-        <div class="main-title">
-            💀 Random Horror<br>
-            Movie Picker 📼
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    <div class="main-title-banner">
+        💀 Random Horror<br>
+        Movie Picker 📼
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # ----------------------------
 # FILTER NOTE
