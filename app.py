@@ -44,133 +44,35 @@ st.markdown(
     """
     <style>
     .main-title-banner {
-        position: relative;
-        overflow: hidden;
-
         text-align: center;
         font-family: 'Rubik Glitch', cursive;
         font-size: 46px;
         line-height: 1.1;
-
         margin: 10px auto 30px auto;
-        padding: 22px 12px;
-
+        padding: 18px 12px;
         max-width: 760px;
 
         border: 3px solid #b00000;
         border-radius: 18px;
 
         color: #ffffff;
+        background: #050505;
 
-        background:
-            repeating-linear-gradient(
-                0deg,
-                #050505 0px,
-                #050505 3px,
-                #0d0000 4px,
-                #050505 5px
-            );
-
-        box-shadow:
-            0 0 14px rgba(255, 0, 0, 0.35),
-            inset 0 0 40px rgba(255, 0, 0, 0.08);
-    }
-
-    .main-title-banner::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-
-        background:
-            linear-gradient(
-                90deg,
-                transparent,
-                rgba(255,0,0,0.05),
-                transparent
-            );
-
-        animation: glitchmove 4s linear infinite;
-        pointer-events: none;
-    }
-
-    @keyframes glitchmove {
-        0% {
-            transform: translateX(-100%);
-        }
-        100% {
-            transform: translateX(100%);
-        }
-    }
-
-    .banner-top {
-        font-size: 36px;
-        margin-bottom: 6px;
-        letter-spacing: 2px;
-    }
-
-    .banner-main {
-        font-size: 72px;
-        color: #ff1a1a;
-
-        text-shadow:
-            0 0 10px rgba(255,0,0,0.7),
-            2px 0 #660000,
-            -2px 0 #330000;
-    }
-
-    .banner-bottom {
-        font-size: 36px;
-        margin-top: 8px;
-        letter-spacing: 2px;
-    }
-
-    .vhs {
-        font-size: 40px;
-        vertical-align: middle;
-        filter: drop-shadow(0 0 6px rgba(255,0,0,0.5));
+        box-shadow: 0 0 14px rgba(255, 0, 0, 0.35);
     }
 
     @media (max-width: 768px) {
-
         .main-title-banner {
-            padding: 16px 8px;
+            font-size: 30px;
+            padding: 14px 8px;
             margin-bottom: 22px;
-        }
-
-        .banner-top {
-            font-size: 24px;
-        }
-
-        .banner-main {
-            font-size: 46px;
-        }
-
-        .banner-bottom {
-            font-size: 24px;
-        }
-
-        .vhs {
-            font-size: 28px;
         }
     }
     </style>
 
     <div class="main-title-banner">
-
-        <div class="banner-top">
-            <span class="vhs">📼</span>
-            RANDOM
-            <span class="vhs">📼</span>
-        </div>
-
-        <div class="banner-main">
-            HORROR
-        </div>
-
-        <div class="banner-bottom">
-            MOVIE PICKER
-        </div>
-
+        💀 Random Horror<br>
+        Movie Picker 📼
     </div>
     """,
     unsafe_allow_html=True
