@@ -176,14 +176,24 @@ st.markdown("""
 <style>
 div.stButton > button {
     height: 75px;
-    font-size: 50px;
-    font-weight: 700;
     border-radius: 12px;
     background: linear-gradient(90deg, #ff0033, #cc0000);
     color: white;
     border: none;
     box-shadow: 0 0 10px rgba(255, 0, 51, 0.4);
     transition: all 0.25s ease-in-out;
+}
+
+/* THIS is the key fix */
+div.stButton > button p {
+    font-size: 32px !important;
+    font-weight: 700;
+}
+
+/* fallback for some Streamlit versions */
+div.stButton > button span {
+    font-size: 32px !important;
+    font-weight: 700;
 }
 
 div.stButton > button:hover {
