@@ -232,7 +232,7 @@ if clicked:
         st.subheader(row["Title"])
 
         st.write(f"**Year:** {row['Year']}")
-        st.write(f"**Runtime:** {row['Runtime']} min")
+        st.write(f"**Runtime:** {int(row['Runtime'])} min")
         st.write(f"**Director:** {row['Director']}")
         st.write(f"**Country:** {row['Country']}")
 
