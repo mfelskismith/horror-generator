@@ -5,11 +5,11 @@ import re
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
 # ----------------------------
-# HORROR FONT IMPORT (NOSIFER)
+# HORROR FONT IMPORT (UNIFRAKTURCOOK)
 # ----------------------------
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
 </style>
 """, unsafe_allow_html=True)
 
@@ -33,8 +33,8 @@ with col2:
         """
         <div style="
             text-align:center;
-            font-size:42px;
-            font-family: 'Nosifer', cursive;
+            font-size:52px;
+            font-family: 'UnifrakturCook', cursive;
             line-height:1.1;
             margin-bottom:30px;
         ">
@@ -185,10 +185,12 @@ if query:
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# BUTTON STYLE (NOSIFER FONT)
+# BUTTON STYLE (UNIFRAKTURCOOK)
 # ----------------------------
 st.markdown("""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
+
 div.stButton > button {
     height: 75px;
     border-radius: 12px;
@@ -202,8 +204,8 @@ div.stButton > button {
 /* button text */
 div.stButton > button p,
 div.stButton > button span {
-    font-size: 24px !important;
-    font-family: 'Nosifer', cursive !important;
+    font-size: 32px !important;
+    font-family: 'UnifrakturCook', cursive !important;
     letter-spacing: 1px;
 }
 
@@ -216,7 +218,7 @@ div.stButton > button:hover {
 """, unsafe_allow_html=True)
 
 clicked = st.button(
-    "🎲 Pick Random Horror Movie 🎲",
+    "🎲 Pick Random Horror Movie",
     use_container_width=True,
     type="primary"
 )
