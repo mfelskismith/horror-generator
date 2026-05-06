@@ -166,7 +166,7 @@ else:
 # ----------------------------
 # SEARCH BAR
 # ----------------------------
-query = st.text_input("Search title, director, or overview")
+query = st.text_input("Search title, director, or plot")
 
 # ----------------------------
 # FILTER DATA
