@@ -228,7 +228,10 @@ if clicked:
     else:
         row = filtered.sample(1).iloc[0]
 
-        link = f"https://letterboxd.com/tmdb/{row['tmdb_id']}/"
+        # FIX: ensure tmdb_id is an int (removes .0 issue)
+        link = None
+        if pd.notna(row["tmdb_id"]):
+            link = f"https://letterboxd.com/tmdb/{int(row['tmdb_id'])}/"
 
         st.subheader(row["Title"])
 
@@ -250,70 +253,73 @@ if clicked:
         st.write(row["Overview"])
 
         # ----------------------------
-        # CLEAN CLICKABLE POSTER (NO SPACING ISSUES)
+        # CLICKABLE POSTER (CLEAN UI)
         # ----------------------------
-        st.markdown(
-            f"""
-            <style>
-            .poster-container {{
-                position: relative;
-                width: 100%;
-                margin: 0;
-            }}
+        if link:
+            st.markdown(
+                f"""
+                <style>
+                .poster-container {{
+                    position: relative;
+                    width: 100%;
+                    margin: 0;
+                }}
 
-            .poster-img {{
-                width: 100%;
-                border-radius: 10px;
-                display: block;
-                margin: 0;
-                transition: transform 0.2s ease-in-out;
-            }}
+                .poster-img {{
+                    width: 100%;
+                    border-radius: 10px;
+                    display: block;
+                    margin: 0;
+                    transition: transform 0.2s ease-in-out;
+                }}
 
-            .poster-container:hover .poster-img {{
-                transform: scale(1.01);
-            }}
+                .poster-container:hover .poster-img {{
+                    transform: scale(1.01);
+                }}
 
-            .poster-overlay {{
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border-radius: 10px;
+                .poster-overlay {{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 10px;
 
-                background: rgba(0,0,0,0);
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                    background: rgba(0,0,0,0);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
 
-                opacity: 0;
-                transition: all 0.2s ease-in-out;
-            }}
+                    opacity: 0;
+                    transition: all 0.2s ease-in-out;
+                }}
 
-            .poster-container:hover .poster-overlay {{
-                background: rgba(0,0,0,0.35);
-                opacity: 1;
-            }}
+                .poster-container:hover .poster-overlay {{
+                    background: rgba(0,0,0,0.35);
+                    opacity: 1;
+                }}
 
-            .poster-label {{
-                font-size: 16px;
-                font-weight: 500;
-                color: white;
-                letter-spacing: 0.5px;
-                opacity: 0.9;
-            }}
-            </style>
+                .poster-label {{
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: white;
+                    letter-spacing: 0.5px;
+                    opacity: 0.9;
+                }}
+                </style>
 
-            <div class="poster-container">
-                <a href="{link}" target="_blank" rel="noopener noreferrer">
-                    <img class="poster-img" src="{row['Poster']}">
-                    <div class="poster-overlay">
-                        <div class="poster-label">Letterboxd →</div>
-                    </div>
-                </a>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+                <div class="poster-container">
+                    <a href="{link}" target="_blank" rel="noopener noreferrer">
+                        <img class="poster-img" src="{row['Poster']}">
+                        <div class="poster-overlay">
+                            <div class="poster-label">Letterboxd →</div>
+                        </div>
+                    </a>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
-        st.markdown(f"[🔗 Letterboxd Link]({link})")
+            st.markdown(f"[🔗 Letterboxd Link]({link})")
+        else:
+            st.image(row["Poster"], use_container_width=True)
