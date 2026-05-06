@@ -39,7 +39,7 @@ with col2:
             margin-bottom:30px;
         ">
             💀 Random Horror<br>
-            Movie Picker 🎬
+            Movie Picker 📼
         </div>
         """,
         unsafe_allow_html=True
