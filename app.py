@@ -91,6 +91,11 @@ country_series = (
 
 country_list = sorted(country_series[country_series != ""].unique())
 
+# Move United States of America to top
+if "United States of America" in country_list:
+    country_list.remove("United States of America")
+    country_list.insert(0, "United States of America")
+
 countries_selected = st.multiselect(
     "Select Countries",
     country_list,
