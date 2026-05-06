@@ -92,7 +92,7 @@ st.markdown(
 # HORROR / THRILLER TOGGLE
 # ----------------------------
 st.markdown(
-    '<div style="font-size:20px; margin-bottom:-10px;">Include "Non-Horror" Thrillers</div>',
+    '<div style="font-size:18px; margin-bottom:-10px;">Include "Non-Horror" Thrillers</div>',
     unsafe_allow_html=True
 )
 
