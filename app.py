@@ -73,7 +73,7 @@ with col2:
 st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown(
-    "<p style='text-align:center; font-size:14px; color:gray;'>All Filters Optional</p>",
+    "<p style='text-align:center; font-size:18px; color:gray;'>All Filters Optional</p>",
     unsafe_allow_html=True
 )
 
