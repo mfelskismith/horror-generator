@@ -1,3 +1,218 @@
+import streamlit as st
+import pandas as pd
+import re
+
+st.set_page_config(page_title="Horror Generator", layout="centered")
+
+# ----------------------------
+# HORROR FONT IMPORT (RUBIK GLITCH)
+# ----------------------------
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
+</style>
+""", unsafe_allow_html=True)
+
+# ----------------------------
+# LOAD DATA
+# ----------------------------
+df = pd.read_csv("horror_data.csv")
+
+df["Runtime"] = pd.to_numeric(df["Runtime"], errors="coerce")
+df["Vote Avg"] = pd.to_numeric(df["Vote Avg"], errors="coerce")
+df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
+df["Vote Count"] = pd.to_numeric(df["Vote Count"], errors="coerce")
+
+# ----------------------------
+# TITLE
+# ----------------------------
+col1, col2, col3 = st.columns([1, 3, 1])
+
+with col2:
+    st.markdown(
+        """
+        <div style="
+            text-align:center;
+            font-size:44px;
+            font-family: 'Rubik Glitch', cursive;
+            line-height:1.1;
+            margin-bottom:30px;
+        ">
+            💀 Random Horror<br>
+            Movie Picker 📼
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# ----------------------------
+# FILTER NOTE
+# ----------------------------
+st.markdown("<br>", unsafe_allow_html=True)
+
+st.markdown(
+    "<p style='text-align:center; font-size:14px; color:gray;'>All Filters Optional</p>",
+    unsafe_allow_html=True
+)
+
+# ----------------------------
+# COUNTRY FILTER
+# ----------------------------
+country_series = (
+    df["Country"]
+    .dropna()
+    .astype(str)
+    .str.split(",")
+    .explode()
+    .str.strip()
+)
+
+country_list = sorted(country_series[country_series != ""].unique())
+
+countries_selected = st.multiselect(
+    "Select Countries",
+    country_list,
+    default=[]
+)
+
+# ----------------------------
+# YEAR FILTER
+# ----------------------------
+min_year = int(df["Year"].min())
+max_year = int(df["Year"].max())
+
+year_range = st.slider(
+    "Release Year Range",
+    min_value=min_year,
+    max_value=max_year,
+    value=(min_year, max_year)
+)
+
+# ----------------------------
+# OTHER FILTERS
+# ----------------------------
+min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
+min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
+
+# ----------------------------
+# GENRE FILTER
+# ----------------------------
+if "Genres" in df.columns:
+    genre_series = (
+        df["Genres"]
+        .dropna()
+        .astype(str)
+        .str.split(",")
+        .explode()
+        .str.strip()
+    )
+
+    genre_list = sorted(genre_series[genre_series != ""].unique())
+
+    genres_selected = st.multiselect(
+        "Select Secondary Genres",
+        genre_list,
+        default=[]
+    )
+else:
+    genres_selected = []
+
+# ----------------------------
+# SEARCH BAR
+# ----------------------------
+query = st.text_input("Search title, director, or overview")
+
+# ----------------------------
+# FILTER DATA
+# ----------------------------
+filtered = df.copy()
+
+if countries_selected:
+    filtered = filtered[
+        filtered["Country"]
+        .fillna("")
+        .astype(str)
+        .apply(lambda x: any(c in x for c in countries_selected))
+    ]
+
+filtered = filtered[
+    (filtered["Year"] >= year_range[0]) &
+    (filtered["Year"] <= year_range[1])
+]
+
+filtered = filtered[filtered["Runtime"] >= min_runtime]
+filtered = filtered[filtered["Vote Avg"] >= min_rating]
+
+if genres_selected and "Genres" in df.columns:
+    filtered = filtered[
+        filtered["Genres"]
+        .fillna("")
+        .astype(str)
+        .apply(lambda x: any(g in x for g in genres_selected))
+    ]
+
+# ----------------------------
+# SEARCH FUNCTION
+# ----------------------------
+def word_match(text, query):
+    if pd.isna(text) or not query:
+        return False
+
+    text = str(text).lower()
+    query = query.lower().strip()
+
+    terms = query.split()
+
+    return all(
+        re.search(rf"\b{re.escape(term)}\b", text)
+        for term in terms
+    )
+
+if query:
+    title_match = filtered["Title"].apply(lambda x: word_match(x, query))
+    director_match = filtered["Director"].apply(lambda x: word_match(x, query))
+    overview_match = filtered["Overview"].apply(lambda x: word_match(x, query))
+
+    filtered = filtered[
+        title_match |
+        (director_match & ~title_match) |
+        (overview_match & ~title_match & ~director_match)
+    ]
+
+# ----------------------------
+# OUTPUT COUNT
+# ----------------------------
+st.write(f"🎥 {len(filtered)} movies match your filters")
+
+# ----------------------------
+# BUTTON STYLE
+# ----------------------------
+st.markdown("""
+<style>
+div.stButton > button {
+    height: 75px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #ff0033, #8b0000);
+    color: white;
+    border: none;
+    box-shadow: 0 0 12px rgba(255, 0, 51, 0.5);
+    transition: all 0.25s ease-in-out;
+}
+
+div.stButton > button p,
+div.stButton > button span {
+    font-size: 28px !important;
+    font-family: 'Rubik Glitch', cursive !important;
+}
+
+div.stButton > button:hover {
+    transform: scale(1.03);
+}
+</style>
+""", unsafe_allow_html=True)
+
+clicked = st.button("🎲 Pick Random Horror Movie 🎲", use_container_width=True)
+
 # ----------------------------
 # RANDOM PICK
 # ----------------------------
@@ -29,17 +244,12 @@ if clicked:
             st.write("**Votes:** N/A")
 
         # ----------------------------
-        # TIGHT CLICKABLE BLOCK (OVERVIEW + POSTER)
+        # CLICKABLE OVERVIEW + POSTER (TIGHT)
         # ----------------------------
         if link:
             st.markdown(
                 f"""
                 <style>
-                .movie-card {{
-                    margin: 0;
-                    padding: 0;
-                }}
-
                 .movie-link {{
                     text-decoration: none;
                     color: inherit;
@@ -53,7 +263,6 @@ if clicked:
 
                 .poster-container {{
                     position: relative;
-                    width: 100%;
                     margin: 0;
                 }}
 
@@ -62,28 +271,18 @@ if clicked:
                     border-radius: 10px;
                     display: block;
                     margin: 0;
-                    transition: transform 0.2s ease-in-out;
-                }}
-
-                .poster-container:hover .poster-img {{
-                    transform: scale(1.01);
                 }}
 
                 .poster-overlay {{
                     position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
+                    inset: 0;
                     border-radius: 10px;
-
-                    background: rgba(0,0,0,0);
                     display: flex;
                     align-items: center;
                     justify-content: center;
-
+                    background: rgba(0,0,0,0);
                     opacity: 0;
-                    transition: all 0.2s ease-in-out;
+                    transition: 0.2s;
                 }}
 
                 .poster-container:hover .poster-overlay {{
@@ -92,33 +291,26 @@ if clicked:
                 }}
 
                 .poster-label {{
-                    font-size: 15px;
-                    font-weight: 500;
                     color: white;
-                    letter-spacing: 0.5px;
+                    font-size: 15px;
                 }}
                 </style>
 
-                <div class="movie-card">
-                    <a class="movie-link" href="{link}" target="_blank" rel="noopener noreferrer">
+                <a class="movie-link" href="{link}" target="_blank">
+                    <div class="movie-overview">
+                        {row['Overview']}
+                    </div>
 
-                        <div class="movie-overview">
-                            {row['Overview']}
+                    <div class="poster-container">
+                        <img class="poster-img" src="{row['Poster']}">
+                        <div class="poster-overlay">
+                            <div class="poster-label">Open on Letterboxd</div>
                         </div>
-
-                        <div class="poster-container">
-                            <img class="poster-img" src="{row['Poster']}">
-                            <div class="poster-overlay">
-                                <div class="poster-label">Open on Letterboxd</div>
-                            </div>
-                        </div>
-
-                    </a>
-                </div>
+                    </div>
+                </a>
                 """,
                 unsafe_allow_html=True
             )
-
         else:
             st.write(row["Overview"])
             st.image(row["Poster"], use_container_width=True)
