@@ -104,7 +104,7 @@ if "United States of America" in country_list:
     country_list.insert(0, "United States of America")
 
 countries_selected = st.multiselect(
-    "Select Countries",
+    "Filter by Countries",
     country_list,
     default=[]
 )
@@ -156,7 +156,7 @@ if "Genres" in df.columns:
     genre_list = sorted(genre_series[genre_series != ""].unique())
 
     genres_selected = st.multiselect(
-        "Select Secondary Genres",
+        "Filter by Additional Genres",
         genre_list,
         default=[]
     )
