@@ -5,7 +5,7 @@ import re
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
 # ----------------------------
-# HORROR FONT + FILM GRAIN BACKGROUND
+# HORROR FONT + DARK THEME
 # ----------------------------
 st.markdown("""
 <style>
@@ -16,6 +16,58 @@ st.markdown("""
     background-image:
         radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px);
     background-size: 5px 5px;
+    color: white;
+}
+
+/* Global text */
+html, body, [class*="css"], label, p, span, div {
+    color: white;
+}
+
+/* Labels */
+.stMarkdown,
+.stSlider label,
+.stMultiSelect label,
+.stTextInput label {
+    color: white !important;
+}
+
+/* Dropdowns and text inputs */
+.stMultiSelect div[data-baseweb="select"] > div,
+.stTextInput input {
+    background-color: #252631 !important;
+    color: white !important;
+    border-radius: 10px !important;
+}
+
+/* Placeholder text */
+.stMultiSelect span,
+.stTextInput input::placeholder {
+    color: rgba(255,255,255,0.65) !important;
+}
+
+/* Slider labels/numbers */
+.stSlider,
+.stSlider label,
+.stSlider span {
+    color: white !important;
+}
+
+/* Slider active color */
+.stSlider [data-baseweb="slider"] div {
+    color: #ff4b4b !important;
+}
+
+/* Optional note */
+.filters-note {
+    text-align: center;
+    font-size: 14px;
+    color: rgba(255,255,255,0.65) !important;
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+    color: white !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -55,6 +107,7 @@ with col2:
             font-family: 'Rubik Glitch', cursive;
             line-height: 1.1;
             margin-bottom: 30px;
+            color: white;
         }
 
         @media (max-width: 768px) {
@@ -80,7 +133,7 @@ with col2:
 st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown(
-    "<p style='text-align:center; font-size:14px; color:gray;'>All Filters Optional</p>",
+    "<p class='filters-note'>All Filters Optional</p>",
     unsafe_allow_html=True
 )
 
@@ -227,7 +280,7 @@ div.stButton > button {
     height: 75px;
     border-radius: 12px;
     background: linear-gradient(90deg, #ff0033, #8b0000);
-    color: white;
+    color: white !important;
     border: none;
     box-shadow: 0 0 12px rgba(255, 0, 51, 0.5);
     transition: all 0.25s ease-in-out;
@@ -237,6 +290,7 @@ div.stButton > button p,
 div.stButton > button span {
     font-size: 28px !important;
     font-family: 'Rubik Glitch', cursive !important;
+    color: white !important;
 }
 
 div.stButton > button:hover {
@@ -285,6 +339,7 @@ if clicked:
             <div style="
                 margin-bottom:6px;
                 line-height:1.4;
+                color:white;
             ">
                 {row['Overview']}
             </div>
