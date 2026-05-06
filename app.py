@@ -268,26 +268,33 @@ if clicked:
             st.markdown(
                 f"""
                 <style>
+                .poster-wrapper {{
+                    display: flex;
+                    justify-content: center;
+                    margin: 0;
+                    padding: 0;
+                }}
+
                 .poster-container {{
                     position: relative;
+                    display: inline-block;
                     margin: 0;
-                    overflow: hidden;
+                    padding: 0;
+                    line-height: 0;
                     border-radius: 10px;
+                    overflow: hidden;
                 }}
 
                 .poster-img {{
-                    width: 100%;
-                    height: auto;
-                    object-fit: cover;
                     display: block;
+                    max-width: 100%;
+                    height: auto;
                     border-radius: 10px;
-                    margin: 0;
                 }}
 
                 .poster-overlay {{
                     position: absolute;
                     inset: 0;
-                    border-radius: 10px;
 
                     display: flex;
                     align-items: center;
@@ -312,15 +319,17 @@ if clicked:
                 }}
                 </style>
 
-                <div class="poster-container">
-                    <a href="{link}" target="_blank" rel="noopener noreferrer">
-                        <img class="poster-img" src="{row['Poster']}">
-                        <div class="poster-overlay">
-                            <div class="poster-label">
-                                Open on Letterboxd
+                <div class="poster-wrapper">
+                    <div class="poster-container">
+                        <a href="{link}" target="_blank" rel="noopener noreferrer">
+                            <img class="poster-img" src="{row['Poster']}">
+                            <div class="poster-overlay">
+                                <div class="poster-label">
+                                    Open on Letterboxd
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </div>
                 """,
                 unsafe_allow_html=True
