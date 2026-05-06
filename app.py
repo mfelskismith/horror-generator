@@ -125,7 +125,7 @@ year_range = st.slider(
 # ----------------------------
 # OTHER FILTERS
 # ----------------------------
-min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
+min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 80)
 min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
 
 # ----------------------------
