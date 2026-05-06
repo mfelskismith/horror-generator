@@ -115,6 +115,14 @@ year_range = st.slider(
 )
 
 # ----------------------------
+# HORROR / THRILLER TOGGLE
+# ----------------------------
+include_non_horror_thrillers = st.toggle(
+    "Include Non-Horror Thrillers",
+    value=False
+)
+
+# ----------------------------
 # OTHER FILTERS
 # ----------------------------
 min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
@@ -169,6 +177,17 @@ filtered = filtered[
 filtered = filtered[filtered["Runtime"] >= min_runtime]
 filtered = filtered[filtered["Vote Avg"] >= min_rating]
 
+# Horror-only filter
+if not include_non_horror_thrillers and "Genres" in df.columns:
+    filtered = filtered[
+        filtered["Genres"]
+        .fillna("")
+        .astype(str)
+        .str.lower()
+        .apply(lambda x: "horror" in [g.strip() for g in x.split(",")])
+    ]
+
+# Secondary genre filter
 if genres_selected and "Genres" in df.columns:
     filtered = filtered[
         filtered["Genres"]
@@ -238,7 +257,7 @@ div.stButton > button:hover {
 """, unsafe_allow_html=True)
 
 clicked = st.button(
-    "🎲 Pick a Random Horror Movie 🎲",
+    "🎲 Pick Random Horror Movie 🎲",
     use_container_width=True
 )
 
