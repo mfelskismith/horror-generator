@@ -5,11 +5,35 @@ import re
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
 # ----------------------------
-# HORROR FONT ONLY
+# HORROR FONT + MOBILE MULTISELECT FIX
 # ----------------------------
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
+
+/* Mobile multiselect dropdown fix */
+@media (max-width: 768px) {
+    div[data-baseweb="popover"] {
+        position: fixed !important;
+        top: 80px !important;
+        left: 12px !important;
+        right: 12px !important;
+        transform: none !important;
+        max-height: 38vh !important;
+        overflow-y: auto !important;
+        z-index: 999999 !important;
+    }
+
+    div[data-baseweb="popover"] > div {
+        max-height: 38vh !important;
+        overflow-y: auto !important;
+    }
+
+    ul[role="listbox"] {
+        max-height: 34vh !important;
+        overflow-y: auto !important;
+    }
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -103,31 +127,11 @@ if "United States of America" in country_list:
     country_list.remove("United States of America")
     country_list.insert(0, "United States of America")
 
-if "countries_selected" not in st.session_state:
-    st.session_state.countries_selected = []
-
-country_choice = st.selectbox(
+countries_selected = st.multiselect(
     "Select Countries",
-    [""] + country_list,
-    index=0,
-    format_func=lambda x: "Choose a country" if x == "" else x
+    country_list,
+    default=[]
 )
-
-col_add_country, col_clear_country = st.columns([1, 1])
-
-with col_add_country:
-    if st.button("Add Country", use_container_width=True):
-        if country_choice and country_choice not in st.session_state.countries_selected:
-            st.session_state.countries_selected.append(country_choice)
-
-with col_clear_country:
-    if st.button("Clear Countries", use_container_width=True):
-        st.session_state.countries_selected = []
-
-countries_selected = st.session_state.countries_selected
-
-if countries_selected:
-    st.write("Selected countries:", ", ".join(countries_selected))
 
 # ----------------------------
 # YEAR FILTER
@@ -163,31 +167,11 @@ if "Genres" in df.columns:
 
     genre_list = sorted(genre_series[genre_series != ""].unique())
 
-    if "genres_selected" not in st.session_state:
-        st.session_state.genres_selected = []
-
-    genre_choice = st.selectbox(
+    genres_selected = st.multiselect(
         "Select Secondary Genres",
-        [""] + genre_list,
-        index=0,
-        format_func=lambda x: "Choose a genre" if x == "" else x
+        genre_list,
+        default=[]
     )
-
-    col_add_genre, col_clear_genre = st.columns([1, 1])
-
-    with col_add_genre:
-        if st.button("Add Genre", use_container_width=True):
-            if genre_choice and genre_choice not in st.session_state.genres_selected:
-                st.session_state.genres_selected.append(genre_choice)
-
-    with col_clear_genre:
-        if st.button("Clear Genres", use_container_width=True):
-            st.session_state.genres_selected = []
-
-    genres_selected = st.session_state.genres_selected
-
-    if genres_selected:
-        st.write("Selected genres:", ", ".join(genres_selected))
 else:
     genres_selected = []
 
@@ -214,6 +198,7 @@ filtered = filtered[
     (filtered["Year"] <= year_range[1])
 ]
 
+# Keep rows with missing runtime
 filtered = filtered[
     filtered["Runtime"].isna() |
     (filtered["Runtime"] >= min_runtime)
@@ -221,6 +206,7 @@ filtered = filtered[
 
 filtered = filtered[filtered["Vote Avg"] >= min_rating]
 
+# Horror-only filter
 if not include_non_horror_thrillers and "Genres" in df.columns:
     filtered = filtered[
         filtered["Genres"]
@@ -230,6 +216,7 @@ if not include_non_horror_thrillers and "Genres" in df.columns:
         .apply(lambda x: "horror" in [g.strip() for g in x.split(",")])
     ]
 
+# Secondary genre filter
 if genres_selected and "Genres" in df.columns:
     filtered = filtered[
         filtered["Genres"]
