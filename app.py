@@ -5,35 +5,11 @@ import re
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
 # ----------------------------
-# HORROR FONT + MOBILE MULTISELECT FIX
+# HORROR FONT ONLY
 # ----------------------------
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
-
-/* Mobile multiselect dropdown fix */
-@media (max-width: 768px) {
-    div[data-baseweb="popover"] {
-        position: fixed !important;
-        top: 80px !important;
-        left: 12px !important;
-        right: 12px !important;
-        transform: none !important;
-        max-height: 38vh !important;
-        overflow-y: auto !important;
-        z-index: 999999 !important;
-    }
-
-    div[data-baseweb="popover"] > div {
-        max-height: 38vh !important;
-        overflow-y: auto !important;
-    }
-
-    ul[role="listbox"] {
-        max-height: 34vh !important;
-        overflow-y: auto !important;
-    }
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -149,7 +125,20 @@ year_range = st.slider(
 # ----------------------------
 # OTHER FILTERS
 # ----------------------------
-min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 80)
+runtime_range = st.slider(
+    "Runtime Range (minutes)",
+    min_value=0,
+    max_value=200,
+    value=(80, 200)
+)
+
+runtime_min = runtime_range[0]
+runtime_max = runtime_range[1]
+
+runtime_label_max = "200+" if runtime_max == 200 else str(runtime_max)
+
+st.caption(f"Selected runtime: {runtime_min}–{runtime_label_max} minutes")
+
 min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
 
 # ----------------------------
@@ -198,11 +187,20 @@ filtered = filtered[
     (filtered["Year"] <= year_range[1])
 ]
 
-# Keep rows with missing runtime
-filtered = filtered[
-    filtered["Runtime"].isna() |
-    (filtered["Runtime"] >= min_runtime)
-]
+# Runtime filter with 200+ behavior
+if runtime_max == 200:
+    filtered = filtered[
+        filtered["Runtime"].isna() |
+        (filtered["Runtime"] >= runtime_min)
+    ]
+else:
+    filtered = filtered[
+        filtered["Runtime"].isna() |
+        (
+            (filtered["Runtime"] >= runtime_min) &
+            (filtered["Runtime"] <= runtime_max)
+        )
+    ]
 
 filtered = filtered[filtered["Vote Avg"] >= min_rating]
 
