@@ -5,11 +5,18 @@ import re
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
 # ----------------------------
-# HORROR FONT IMPORT (RUBIK GLITCH)
+# HORROR FONT + SUBTLE FILM GRAIN BACKGROUND
 # ----------------------------
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
+
+.stApp {
+    background-color: #0b0b0b;
+    background-image:
+        radial-gradient(rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 4px 4px;
+}
 </style>
 """, unsafe_allow_html=True)
 
