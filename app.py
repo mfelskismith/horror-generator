@@ -125,19 +125,18 @@ year_range = st.slider(
 # ----------------------------
 # OTHER FILTERS
 # ----------------------------
-runtime_range = st.slider(
+runtime_options = list(range(0, 200)) + ["200+"]
+
+runtime_range = st.select_slider(
     "Runtime Range (minutes)",
-    min_value=0,
-    max_value=200,
-    value=(80, 200)
+    options=runtime_options,
+    value=(80, "200+")
 )
 
 runtime_min = runtime_range[0]
 runtime_max = runtime_range[1]
 
-runtime_label_max = "200+" if runtime_max == 200 else str(runtime_max)
-
-st.caption(f"Selected runtime: {runtime_min}–{runtime_label_max} minutes")
+runtime_max_numeric = 200 if runtime_max == "200+" else runtime_max
 
 min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
 
@@ -188,7 +187,7 @@ filtered = filtered[
 ]
 
 # Runtime filter with 200+ behavior
-if runtime_max == 200:
+if runtime_max == "200+":
     filtered = filtered[
         filtered["Runtime"].isna() |
         (filtered["Runtime"] >= runtime_min)
@@ -198,7 +197,7 @@ else:
         filtered["Runtime"].isna() |
         (
             (filtered["Runtime"] >= runtime_min) &
-            (filtered["Runtime"] <= runtime_max)
+            (filtered["Runtime"] <= runtime_max_numeric)
         )
     ]
 
