@@ -202,7 +202,7 @@ div.stButton > button {
 /* button text */
 div.stButton > button p,
 div.stButton > button span {
-    font-size: 32px !important;
+    font-size: 28px !important;
     font-family: 'Rubik Glitch', cursive !important;
     letter-spacing: 1px;
 }
