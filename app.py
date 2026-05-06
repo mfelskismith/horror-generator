@@ -204,7 +204,7 @@ div.stButton > button:hover {
 """, unsafe_allow_html=True)
 
 clicked = st.button(
-    "🎲 Pick Random Horror Movie",
+    "🎲 Pick Random Horror Movie 🎲",
     use_container_width=True,
     type="primary"
 )
