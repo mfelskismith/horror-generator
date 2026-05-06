@@ -33,7 +33,7 @@ with col2:
         """
         <div style="
             text-align:center;
-            font-size:42px;
+            font-size:48px;
             font-family: 'Rubik Glitch', cursive;
             line-height:1.1;
             margin-bottom:30px;
@@ -216,7 +216,7 @@ div.stButton > button:hover {
 """, unsafe_allow_html=True)
 
 clicked = st.button(
-    "🎲 Pick Random Horror Movie",
+    "🎲 Pick Random Horror Movie 🎲",
     use_container_width=True,
     type="primary"
 )
