@@ -33,13 +33,13 @@ with col2:
         """
         <div style="
             text-align:center;
-            font-size:52px;
+            font-size:42px;
             font-family: 'Rubik Glitch', cursive;
             line-height:1.1;
             margin-bottom:30px;
         ">
             💀 Random Horror<br>
-            Movie Generator 🎬
+            Movie Picker 🎬
         </div>
         """,
         unsafe_allow_html=True
