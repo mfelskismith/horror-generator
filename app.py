@@ -91,15 +91,20 @@ st.markdown(
 # ----------------------------
 # HORROR / THRILLER TOGGLE
 # ----------------------------
-st.markdown(
-    '<div style="font-size:18px; margin-bottom:-10px;">Include "Non-Horror" Thrillers</div>',
-    unsafe_allow_html=True
-)
+toggle_col1, toggle_col2 = st.columns([6, 1])
 
-include_non_horror_thrillers = st.toggle(
-    "",
-    value=False
-)
+with toggle_col1:
+    st.markdown(
+        '<div style="font-size:20px; padding-top:6px;">Include "Non-Horror" Thrillers</div>',
+        unsafe_allow_html=True
+    )
+
+with toggle_col2:
+    include_non_horror_thrillers = st.toggle(
+        "",
+        value=False,
+        label_visibility="collapsed"
+    )
 
 # ----------------------------
 # COUNTRY FILTER
