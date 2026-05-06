@@ -5,68 +5,49 @@ import re
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
 # ----------------------------
-# HORROR FONT + DARK THEME
+# HORROR FONT + BACKGROUND
 # ----------------------------
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
 
+/* Background */
 .stApp {
     background-color: #080808;
     background-image:
         radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px);
     background-size: 5px 5px;
-    color: white;
 }
 
-/* Global text */
-html, body, [class*="css"], label, p, span, div {
-    color: white;
+/* Dropdown + input backgrounds */
+div[data-baseweb="select"] > div,
+input {
+    background-color: #252631 !important;
+    color: white !important;
+    border-radius: 10px !important;
+}
+
+/* Dropdown selected/placeholder text */
+div[data-baseweb="select"] span,
+input::placeholder {
+    color: rgba(255,255,255,0.75) !important;
+}
+
+/* Dropdown arrow */
+div[data-baseweb="select"] svg {
+    fill: white !important;
 }
 
 /* Labels */
-.stMarkdown,
+label,
 .stSlider label,
 .stMultiSelect label,
 .stTextInput label {
     color: white !important;
 }
 
-/* Dropdowns and text inputs */
-.stMultiSelect div[data-baseweb="select"] > div,
-.stTextInput input {
-    background-color: #252631 !important;
-    color: white !important;
-    border-radius: 10px !important;
-}
-
-/* Placeholder text */
-.stMultiSelect span,
-.stTextInput input::placeholder {
-    color: rgba(255,255,255,0.65) !important;
-}
-
-/* Slider labels/numbers */
-.stSlider,
-.stSlider label,
+/* Slider text */
 .stSlider span {
-    color: white !important;
-}
-
-/* Slider active color */
-.stSlider [data-baseweb="slider"] div {
-    color: #ff4b4b !important;
-}
-
-/* Optional note */
-.filters-note {
-    text-align: center;
-    font-size: 14px;
-    color: rgba(255,255,255,0.65) !important;
-}
-
-/* Headers */
-h1, h2, h3, h4, h5, h6 {
     color: white !important;
 }
 </style>
@@ -133,7 +114,15 @@ with col2:
 st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown(
-    "<p class='filters-note'>All Filters Optional</p>",
+    """
+    <p style="
+        text-align:center;
+        font-size:14px;
+        color:rgba(255,255,255,0.65);
+    ">
+        All Filters Optional
+    </p>
+    """,
     unsafe_allow_html=True
 )
 
