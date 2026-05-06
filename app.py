@@ -317,6 +317,23 @@ if clicked:
                     font-weight: 500;
                     letter-spacing: 0.3px;
                 }}
+
+                /* MOBILE */
+                @media (hover: none) {{
+                    .poster-overlay {{
+                        background: rgba(0,0,0,0.28);
+                        opacity: 1;
+                        align-items: flex-end;
+                        padding-bottom: 18px;
+                    }}
+
+                    .poster-label {{
+                        background: rgba(0,0,0,0.65);
+                        padding: 8px 12px;
+                        border-radius: 8px;
+                        font-size: 14px;
+                    }}
+                }}
                 </style>
 
                 <div class="poster-wrapper">
