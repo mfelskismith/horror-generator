@@ -124,7 +124,7 @@ min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
 # HORROR / THRILLER TOGGLE
 # ----------------------------
 include_non_horror_thrillers = st.toggle(
-    "Include "Non-Horror" Thrillers",
+    "Include Non-Horror Thrillers",
     value=False
 )
 
