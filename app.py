@@ -300,6 +300,9 @@ if clicked:
         if pd.notna(row["tmdb_id"]):
             link = f"https://letterboxd.com/tmdb/{int(row['tmdb_id'])}/"
 
+        st.write(f"**TMDb ID:** {int(row['tmdb_id']) if pd.notna(row['tmdb_id']) else 'N/A'}")
+        st.write(f"**Generated link:** {link}")
+
         st.subheader(row["Title"])
 
         st.write(f"**Year:** {row['Year']}")
