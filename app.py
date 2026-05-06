@@ -232,4 +232,13 @@ if clicked:
         st.image(row["Poster"], use_container_width=True)
 
         # Link (explicit)
-        st.markdown(f"[🔗 Letterboxd Link]({row['Letterboxd URL']})")
+        st.markdown(
+    f"""
+    <div style="margin-top:10px; font-size:18px; font-weight:600;">
+        <a href="{row['Letterboxd URL']}" target="_blank">
+            🔗 Letterboxd Link
+        </a>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
