@@ -27,8 +27,13 @@ input {
     border-radius: 10px !important;
 }
 
-/* Dropdown selected/placeholder text */
-div[data-baseweb="select"] span,
+/* Dropdown text */
+div[data-baseweb="select"] * {
+    color: white !important;
+}
+
+/* Placeholder text */
+div[data-baseweb="select"] input::placeholder,
 input::placeholder {
     color: rgba(255,255,255,0.75) !important;
 }
