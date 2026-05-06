@@ -93,8 +93,11 @@ st.markdown(
 # ----------------------------
 st.markdown("""
 <style>
-div[data-testid="stToggle"] label p {
-    font-size: 24px !important;
+div[data-testid="stToggle"] label,
+div[data-testid="stToggle"] label div,
+div[data-testid="stToggle"] label p,
+div[data-testid="stToggle"] p {
+    font-size: 20px !important;
 }
 </style>
 """, unsafe_allow_html=True)
