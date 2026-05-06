@@ -23,7 +23,7 @@ df["Vote Avg"] = pd.to_numeric(df["Vote Avg"], errors="coerce")
 df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
 df["Vote Count"] = pd.to_numeric(df["Vote Count"], errors="coerce")
 
-# Normalize country field to remove invisible duplicates
+# Normalize country field
 df["Country"] = (
     df["Country"]
     .fillna("")
@@ -91,7 +91,7 @@ country_series = (
 
 country_list = sorted(country_series[country_series != ""].unique())
 
-# Move United States of America to top
+# Move USA to top
 if "United States of America" in country_list:
     country_list.remove("United States of America")
     country_list.insert(0, "United States of America")
@@ -334,9 +334,10 @@ if clicked:
 
                 .poster-label {{
                     color: white;
-                    font-size: 15px;
+                    font-size: 22px;
                     font-weight: 500;
                     letter-spacing: 0.3px;
+                    text-shadow: 0 2px 6px rgba(0,0,0,0.7);
                 }}
 
                 @media (hover: none) {{
@@ -347,12 +348,11 @@ if clicked:
                         padding-bottom: 18px;
                     }}
 
-                    ..poster-label {
-    color: white;
-    font-size: 22px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+                    .poster-label {{
+                        background: rgba(0,0,0,0.65);
+                        padding: 8px 12px;
+                        border-radius: 8px;
+                        font-size: 14px;
                     }}
                 }}
                 </style>
