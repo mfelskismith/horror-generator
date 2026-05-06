@@ -2,7 +2,11 @@ import streamlit as st
 import pandas as pd
 import re
 
-st.set_page_config(page_title="Horror Generator", layout="centered")
+st.set_page_config(
+    page_title="Horror Generator",
+    page_icon="icon.png",
+    layout="centered"
+)
 
 # ----------------------------
 # HORROR FONT ONLY
