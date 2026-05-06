@@ -97,7 +97,7 @@ div[data-testid="stToggle"] label,
 div[data-testid="stToggle"] label div,
 div[data-testid="stToggle"] label p,
 div[data-testid="stToggle"] p {
-    font-size: 20px !important;
+    font-size: 22px !important;
 }
 </style>
 """, unsafe_allow_html=True)
