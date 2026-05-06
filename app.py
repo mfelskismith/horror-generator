@@ -227,7 +227,7 @@ div.stButton > button {
 
 div.stButton > button p,
 div.stButton > button span {
-    font-size: 28px !important;
+    font-size: 24px !important;
     font-family: 'Rubik Glitch', cursive !important;
 }
 
@@ -238,7 +238,7 @@ div.stButton > button:hover {
 """, unsafe_allow_html=True)
 
 clicked = st.button(
-    "🎲 Pick Random Horror Movie 🎲",
+    "🎲 Pick a Random Horror Movie 🎲",
     use_container_width=True
 )
 
