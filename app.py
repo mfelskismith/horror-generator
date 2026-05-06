@@ -93,11 +93,15 @@ st.markdown(
 # ----------------------------
 st.markdown("""
 <style>
+/* Toggle label text */
+div[data-testid="stToggle"] label div[data-testid="stMarkdownContainer"] p {
+    font-size: 22px !important;
+}
+
+/* Optional: slightly enlarge the switch too */
 div[data-testid="stToggle"] {
-    transform: scale(1.12);
+    transform: scale(1.08);
     transform-origin: left center;
-    margin-top: 8px;
-    margin-bottom: 8px;
 }
 </style>
 """, unsafe_allow_html=True)
