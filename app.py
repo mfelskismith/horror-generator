@@ -199,7 +199,6 @@ div.stButton > button {
     transition: all 0.25s ease-in-out;
 }
 
-/* button text */
 div.stButton > button p,
 div.stButton > button span {
     font-size: 28px !important;
@@ -207,7 +206,6 @@ div.stButton > button span {
     letter-spacing: 1px;
 }
 
-/* hover */
 div.stButton > button:hover {
     transform: scale(1.03);
     box-shadow: 0 0 22px rgba(255, 0, 51, 0.8);
@@ -230,6 +228,8 @@ if clicked:
     else:
         row = filtered.sample(1).iloc[0]
 
+        link = f"https://letterboxd.com/tmdb/{row['tmdb_id']}/"
+
         st.subheader(row["Title"])
 
         st.write(f"**Year:** {row['Year']}")
@@ -248,6 +248,72 @@ if clicked:
             st.write("**Votes:** N/A")
 
         st.write(row["Overview"])
-        st.image(row["Poster"], use_container_width=True)
 
-        st.markdown(f"[🔗 Letterboxd Link]({row['Letterboxd URL']})")
+        # ----------------------------
+        # CLEAN CLICKABLE POSTER (NO SPACING ISSUES)
+        # ----------------------------
+        st.markdown(
+            f"""
+            <style>
+            .poster-container {{
+                position: relative;
+                width: 100%;
+                margin: 0;
+            }}
+
+            .poster-img {{
+                width: 100%;
+                border-radius: 10px;
+                display: block;
+                margin: 0;
+                transition: transform 0.2s ease-in-out;
+            }}
+
+            .poster-container:hover .poster-img {{
+                transform: scale(1.01);
+            }}
+
+            .poster-overlay {{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
+
+                background: rgba(0,0,0,0);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                opacity: 0;
+                transition: all 0.2s ease-in-out;
+            }}
+
+            .poster-container:hover .poster-overlay {{
+                background: rgba(0,0,0,0.35);
+                opacity: 1;
+            }}
+
+            .poster-label {{
+                font-size: 16px;
+                font-weight: 500;
+                color: white;
+                letter-spacing: 0.5px;
+                opacity: 0.9;
+            }}
+            </style>
+
+            <div class="poster-container">
+                <a href="{link}" target="_blank" rel="noopener noreferrer">
+                    <img class="poster-img" src="{row['Poster']}">
+                    <div class="poster-overlay">
+                        <div class="poster-label">Letterboxd →</div>
+                    </div>
+                </a>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        st.markdown(f"[🔗 Letterboxd Link]({link})")
