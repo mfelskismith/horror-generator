@@ -138,7 +138,7 @@ runtime_max = runtime_range[1]
 
 runtime_max_numeric = 200 if runtime_max == "200+" else runtime_max
 
-min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
+min_rating = st.slider("Minimum TMDb Rating", 0.0, 10.0, 0.0)
 
 # ----------------------------
 # GENRE FILTER
@@ -317,12 +317,12 @@ if clicked:
         if "Genres" in df.columns:
             st.write(f"**Genres:** {row['Genres']}")
 
-        st.write(f"**Rating:** {row['Vote Avg']}")
+        st.write(f"**TMDb Rating:** {row['Vote Avg']}")
 
         if pd.notna(row["Vote Count"]):
-            st.write(f"**Votes:** {int(row['Vote Count'])}")
+            st.write(f"**TMDb Votes:** {int(row['Vote Count'])}")
         else:
-            st.write("**Votes:** N/A")
+            st.write("**TMDb Votes:** N/A")
 
         st.markdown(
             f"""
