@@ -276,6 +276,13 @@ div.stButton > button span {
     font-family: 'Rubik Glitch', cursive !important;
 }
 
+@media (max-width: 768px) {
+    div.stButton > button p,
+    div.stButton > button span {
+        font-size: 22px !important;
+    }
+}
+
 div.stButton > button:hover {
     transform: scale(1.03);
 }
