@@ -5,56 +5,11 @@ import re
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
 # ----------------------------
-# HORROR FONT + BACKGROUND
+# HORROR FONT ONLY
 # ----------------------------
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
-
-/* Background */
-.stApp {
-    background-color: #080808;
-    background-image:
-        radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px);
-    background-size: 5px 5px;
-}
-
-/* Dropdown + input backgrounds */
-div[data-baseweb="select"] > div,
-input {
-    background-color: #252631 !important;
-    color: white !important;
-    border-radius: 10px !important;
-}
-
-/* Dropdown text */
-div[data-baseweb="select"] * {
-    color: white !important;
-}
-
-/* Placeholder text */
-div[data-baseweb="select"] input::placeholder,
-input::placeholder {
-    color: rgba(255,255,255,0.75) !important;
-}
-
-/* Dropdown arrow */
-div[data-baseweb="select"] svg {
-    fill: white !important;
-}
-
-/* Labels */
-label,
-.stSlider label,
-.stMultiSelect label,
-.stTextInput label {
-    color: white !important;
-}
-
-/* Slider text */
-.stSlider span {
-    color: white !important;
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -93,7 +48,6 @@ with col2:
             font-family: 'Rubik Glitch', cursive;
             line-height: 1.1;
             margin-bottom: 30px;
-            color: white;
         }
 
         @media (max-width: 768px) {
@@ -119,15 +73,7 @@ with col2:
 st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown(
-    """
-    <p style="
-        text-align:center;
-        font-size:14px;
-        color:rgba(255,255,255,0.65);
-    ">
-        All Filters Optional
-    </p>
-    """,
+    "<p style='text-align:center; font-size:14px; color:gray;'>All Filters Optional</p>",
     unsafe_allow_html=True
 )
 
@@ -145,7 +91,6 @@ country_series = (
 
 country_list = sorted(country_series[country_series != ""].unique())
 
-# Move USA to top
 if "United States of America" in country_list:
     country_list.remove("United States of America")
     country_list.insert(0, "United States of America")
@@ -274,7 +219,7 @@ div.stButton > button {
     height: 75px;
     border-radius: 12px;
     background: linear-gradient(90deg, #ff0033, #8b0000);
-    color: white !important;
+    color: white;
     border: none;
     box-shadow: 0 0 12px rgba(255, 0, 51, 0.5);
     transition: all 0.25s ease-in-out;
@@ -284,7 +229,6 @@ div.stButton > button p,
 div.stButton > button span {
     font-size: 28px !important;
     font-family: 'Rubik Glitch', cursive !important;
-    color: white !important;
 }
 
 div.stButton > button:hover {
@@ -333,7 +277,6 @@ if clicked:
             <div style="
                 margin-bottom:6px;
                 line-height:1.4;
-                color:white;
             ">
                 {row['Overview']}
             </div>
