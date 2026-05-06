@@ -33,7 +33,7 @@ with col2:
         """
         <div style="
             text-align:center;
-            font-size:48px;
+            font-size:44px;
             font-family: 'Rubik Glitch', cursive;
             line-height:1.1;
             margin-bottom:30px;
