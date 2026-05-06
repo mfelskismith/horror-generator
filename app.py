@@ -414,7 +414,7 @@ if clicked:
                             <img class="poster-img" src="{row['Poster']}">
                             <div class="poster-overlay">
                                 <div class="poster-label">
-                                    Open on Letterboxd
+                                    Open on Letterboxd ↗
                                 </div>
                             </div>
                         </a>
