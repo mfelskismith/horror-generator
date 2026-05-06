@@ -5,11 +5,25 @@ import re
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
 # ----------------------------
-# HORROR FONT ONLY
+# HORROR FONT + MOBILE MULTISELECT FIX
 # ----------------------------
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
+
+/* Mobile multiselect fix */
+@media (max-width: 768px) {
+
+    div[data-baseweb="popover"] {
+        max-height: 45vh !important;
+        overflow-y: auto !important;
+    }
+
+    ul[role="listbox"] {
+        max-height: 40vh !important;
+        overflow-y: auto !important;
+    }
+}
 </style>
 """, unsafe_allow_html=True)
 
