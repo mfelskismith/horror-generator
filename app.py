@@ -5,17 +5,17 @@ import re
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
 # ----------------------------
-# HORROR FONT + SUBTLE FILM GRAIN BACKGROUND
+# HORROR FONT + FILM GRAIN BACKGROUND
 # ----------------------------
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
 
 .stApp {
-    background-color: #0b0b0b;
+    background-color: #080808;
     background-image:
-        radial-gradient(rgba(255,255,255,0.015) 1px, transparent 1px);
-    background-size: 4px 4px;
+        radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px);
+    background-size: 5px 5px;
 }
 </style>
 """, unsafe_allow_html=True)
