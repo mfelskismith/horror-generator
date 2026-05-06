@@ -211,7 +211,10 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-clicked = st.button("🎲 Pick Random Horror Movie 🎲", use_container_width=True)
+clicked = st.button(
+    "🎲 Pick Random Horror Movie 🎲",
+    use_container_width=True
+)
 
 # ----------------------------
 # RANDOM PICK
@@ -244,23 +247,27 @@ if clicked:
             st.write("**Votes:** N/A")
 
         # ----------------------------
-        # CLICKABLE OVERVIEW + POSTER (TIGHT)
+        # OVERVIEW (tight spacing)
+        # ----------------------------
+        st.markdown(
+            f"""
+            <div style="
+                margin-bottom:6px;
+                line-height:1.4;
+            ">
+                {row['Overview']}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        # ----------------------------
+        # CLICKABLE POSTER
         # ----------------------------
         if link:
             st.markdown(
                 f"""
                 <style>
-                .movie-link {{
-                    text-decoration: none;
-                    color: inherit;
-                    display: block;
-                }}
-
-                .movie-overview {{
-                    margin: 0 0 6px 0;
-                    line-height: 1.4;
-                }}
-
                 .poster-container {{
                     position: relative;
                     margin: 0;
@@ -277,12 +284,15 @@ if clicked:
                     position: absolute;
                     inset: 0;
                     border-radius: 10px;
+
                     display: flex;
                     align-items: center;
                     justify-content: center;
+
                     background: rgba(0,0,0,0);
                     opacity: 0;
-                    transition: 0.2s;
+
+                    transition: 0.2s ease-in-out;
                 }}
 
                 .poster-container:hover .poster-overlay {{
@@ -293,24 +303,24 @@ if clicked:
                 .poster-label {{
                     color: white;
                     font-size: 15px;
+                    font-weight: 500;
+                    letter-spacing: 0.3px;
                 }}
                 </style>
 
-                <a class="movie-link" href="{link}" target="_blank">
-                    <div class="movie-overview">
-                        {row['Overview']}
-                    </div>
-
-                    <div class="poster-container">
+                <div class="poster-container">
+                    <a href="{link}" target="_blank" rel="noopener noreferrer">
                         <img class="poster-img" src="{row['Poster']}">
                         <div class="poster-overlay">
-                            <div class="poster-label">Open on Letterboxd</div>
+                            <div class="poster-label">
+                                Open on Letterboxd
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
                 """,
                 unsafe_allow_html=True
             )
+
         else:
-            st.write(row["Overview"])
             st.image(row["Poster"], use_container_width=True)
