@@ -5,6 +5,15 @@ import re
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
 # ----------------------------
+# HORROR FONT IMPORT
+# ----------------------------
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+</style>
+""", unsafe_allow_html=True)
+
+# ----------------------------
 # LOAD DATA
 # ----------------------------
 df = pd.read_csv("horror_data.csv")
@@ -22,7 +31,13 @@ col1, col2, col3 = st.columns([1, 3, 1])
 with col2:
     st.markdown(
         """
-        <div style="text-align:center; font-size:32px; font-weight:700; line-height:1.2; margin-bottom:30px;">
+        <div style="
+            text-align:center;
+            font-size:42px;
+            font-family: 'Creepster', cursive;
+            line-height:1.1;
+            margin-bottom:30px;
+        ">
             💀 Random Horror<br>
             Movie Generator 🎬
         </div>
@@ -170,47 +185,44 @@ if query:
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# BUTTON STYLE
+# BUTTON STYLE (CREEPER FONT)
 # ----------------------------
 st.markdown("""
 <style>
 div.stButton > button {
     height: 75px;
     border-radius: 12px;
-    background: linear-gradient(90deg, #ff0033, #cc0000);
+    background: linear-gradient(90deg, #ff0033, #8b0000);
     color: white;
     border: none;
-    box-shadow: 0 0 10px rgba(255, 0, 51, 0.4);
+    box-shadow: 0 0 12px rgba(255, 0, 51, 0.5);
     transition: all 0.25s ease-in-out;
 }
 
-/* THIS is the key fix */
-div.stButton > button p {
-    font-size: 32px !important;
-    font-weight: 700;
-}
-
-/* fallback for some Streamlit versions */
+/* button text */
+div.stButton > button p,
 div.stButton > button span {
     font-size: 32px !important;
-    font-weight: 700;
+    font-family: 'Creepster', cursive !important;
+    letter-spacing: 1px;
 }
 
+/* hover */
 div.stButton > button:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 18px rgba(255, 0, 51, 0.7);
+    transform: scale(1.03);
+    box-shadow: 0 0 22px rgba(255, 0, 51, 0.8);
 }
 </style>
 """, unsafe_allow_html=True)
 
 clicked = st.button(
-    "🎲 Pick Random Horror Movie 🎲",
+    "🎲 Pick Random Horror Movie",
     use_container_width=True,
     type="primary"
 )
 
 # ----------------------------
-# RANDOM PICK (RESTORED STREAMLIT LAYOUT)
+# RANDOM PICK
 # ----------------------------
 if clicked:
     if len(filtered) == 0:
@@ -235,20 +247,7 @@ if clicked:
         else:
             st.write("**Votes:** N/A")
 
-        # Overview (standard Streamlit spacing)
         st.write(row["Overview"])
-
-        # Image (standard Streamlit spacing)
         st.image(row["Poster"], use_container_width=True)
 
-        # Link (explicit)
-        st.markdown(
-    f"""
-    <div style="margin-top:10px; font-size:18px; font-weight:600;">
-        <a href="{row['Letterboxd URL']}" target="_blank">
-            🔗 Letterboxd Link
-        </a>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+        st.markdown(f"[🔗 Letterboxd Link]({row['Letterboxd URL']})")
