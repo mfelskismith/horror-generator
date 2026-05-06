@@ -94,7 +94,7 @@ st.markdown(
 st.markdown("""
 <style>
 div[data-testid="stToggle"] label p {
-    font-size: 22px !important;
+    font-size: 24px !important;
 }
 </style>
 """, unsafe_allow_html=True)
