@@ -11,16 +11,26 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
 
-/* Mobile multiselect fix */
+/* Mobile multiselect dropdown fix */
 @media (max-width: 768px) {
-
     div[data-baseweb="popover"] {
-        max-height: 45vh !important;
+        position: fixed !important;
+        top: 80px !important;
+        left: 12px !important;
+        right: 12px !important;
+        transform: none !important;
+        max-height: 38vh !important;
+        overflow-y: auto !important;
+        z-index: 999999 !important;
+    }
+
+    div[data-baseweb="popover"] > div {
+        max-height: 38vh !important;
         overflow-y: auto !important;
     }
 
     ul[role="listbox"] {
-        max-height: 40vh !important;
+        max-height: 34vh !important;
         overflow-y: auto !important;
     }
 }
