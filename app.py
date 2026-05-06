@@ -115,18 +115,18 @@ year_range = st.slider(
 )
 
 # ----------------------------
+# OTHER FILTERS
+# ----------------------------
+min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
+min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
+
+# ----------------------------
 # HORROR / THRILLER TOGGLE
 # ----------------------------
 include_non_horror_thrillers = st.toggle(
     "Include Non-Horror Thrillers",
     value=False
 )
-
-# ----------------------------
-# OTHER FILTERS
-# ----------------------------
-min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
-min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
 
 # ----------------------------
 # GENRE FILTER
@@ -174,7 +174,12 @@ filtered = filtered[
     (filtered["Year"] <= year_range[1])
 ]
 
-filtered = filtered[filtered["Runtime"] >= min_runtime]
+# Keep rows with missing runtime
+filtered = filtered[
+    filtered["Runtime"].isna() |
+    (filtered["Runtime"] >= min_runtime)
+]
+
 filtered = filtered[filtered["Vote Avg"] >= min_rating]
 
 # Horror-only filter
@@ -277,7 +282,7 @@ if clicked:
         st.subheader(row["Title"])
 
         st.write(f"**Year:** {row['Year']}")
-        st.write(f"**Runtime:** {int(row['Runtime'])} min")
+        st.write(f"**Runtime:** {int(row['Runtime']) if pd.notna(row['Runtime']) else 'N/A'} min")
         st.write(f"**Director:** {row['Director']}")
         st.write(f"**Country:** {row['Country']}")
 
