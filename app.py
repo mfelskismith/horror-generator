@@ -347,11 +347,12 @@ if clicked:
                         padding-bottom: 18px;
                     }}
 
-                    .poster-label {{
-                        background: rgba(0,0,0,0.65);
-                        padding: 8px 12px;
-                        border-radius: 8px;
-                        font-size: 14px;
+                    ..poster-label {
+    color: white;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.7);
                     }}
                 }}
                 </style>
