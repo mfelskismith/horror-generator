@@ -5,11 +5,11 @@ import re
 st.set_page_config(page_title="Horror Generator", layout="centered")
 
 # ----------------------------
-# HORROR FONT IMPORT (UNIFRAKTURCOOK)
+# HORROR FONT IMPORT (RUBIK GLITCH)
 # ----------------------------
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
 </style>
 """, unsafe_allow_html=True)
 
@@ -34,7 +34,7 @@ with col2:
         <div style="
             text-align:center;
             font-size:52px;
-            font-family: 'UnifrakturCook', cursive;
+            font-family: 'Rubik Glitch', cursive;
             line-height:1.1;
             margin-bottom:30px;
         ">
@@ -185,12 +185,10 @@ if query:
 st.write(f"🎥 {len(filtered)} movies match your filters")
 
 # ----------------------------
-# BUTTON STYLE (UNIFRAKTURCOOK)
+# BUTTON STYLE (RUBIK GLITCH)
 # ----------------------------
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
-
 div.stButton > button {
     height: 75px;
     border-radius: 12px;
@@ -205,7 +203,7 @@ div.stButton > button {
 div.stButton > button p,
 div.stButton > button span {
     font-size: 32px !important;
-    font-family: 'UnifrakturCook', cursive !important;
+    font-family: 'Rubik Glitch', cursive !important;
     letter-spacing: 1px;
 }
 
