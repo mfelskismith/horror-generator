@@ -73,8 +73,16 @@ with col2:
 st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown(
-    "<p style='text-align:center; font-size:18px; color:gray;'>All Filters Optional</p>",
+    "<p style='text-align:center; font-size:14px; color:gray;'>All Filters Optional</p>",
     unsafe_allow_html=True
+)
+
+# ----------------------------
+# HORROR / THRILLER TOGGLE
+# ----------------------------
+include_non_horror_thrillers = st.toggle(
+    'Include "Non-Horror" Thrillers',
+    value=False
 )
 
 # ----------------------------
@@ -119,14 +127,6 @@ year_range = st.slider(
 # ----------------------------
 min_runtime = st.slider("Minimum runtime (minutes)", 0, 200, 70)
 min_rating = st.slider("Minimum rating", 0.0, 10.0, 0.0)
-
-# ----------------------------
-# HORROR / THRILLER TOGGLE
-# ----------------------------
-include_non_horror_thrillers = st.toggle(
-    'Include "Non-Horror" Thrillers',
-    value=False
-)
 
 # ----------------------------
 # GENRE FILTER
