@@ -247,7 +247,7 @@ if clicked:
             st.write("**Votes:** N/A")
 
         # ----------------------------
-        # OVERVIEW (tight spacing)
+        # OVERVIEW
         # ----------------------------
         st.markdown(
             f"""
@@ -264,45 +264,67 @@ if clicked:
         # ----------------------------
         # CLICKABLE POSTER
         # ----------------------------
-        <style>
-.poster-container {
-    position: relative;
-    margin: 0;
-    overflow: hidden;
-    border-radius: 10px;
-}
+        if link:
+            st.markdown(
+                f"""
+                <style>
+                .poster-container {{
+                    position: relative;
+                    margin: 0;
+                    overflow: hidden;
+                    border-radius: 10px;
+                }}
 
-.poster-img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 10px;
-}
+                .poster-img {{
+                    width: 100%;
+                    height: auto;
+                    object-fit: cover;
+                    display: block;
+                    border-radius: 10px;
+                    margin: 0;
+                }}
 
-.poster-overlay {
-    position: absolute;
-    inset: 0;
-    border-radius: 10px;
+                .poster-overlay {{
+                    position: absolute;
+                    inset: 0;
+                    border-radius: 10px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
 
-    background: rgba(0,0,0,0);
-    opacity: 0;
+                    background: rgba(0,0,0,0);
+                    opacity: 0;
 
-    transition: 0.2s ease-in-out;
-}
+                    transition: 0.2s ease-in-out;
+                }}
 
-.poster-container:hover .poster-overlay {
-    background: rgba(0,0,0,0.35);
-    opacity: 1;
-}
+                .poster-container:hover .poster-overlay {{
+                    background: rgba(0,0,0,0.35);
+                    opacity: 1;
+                }}
 
-.poster-label {
-    color: white;
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-}
-</style>
+                .poster-label {{
+                    color: white;
+                    font-size: 15px;
+                    font-weight: 500;
+                    letter-spacing: 0.3px;
+                }}
+                </style>
+
+                <div class="poster-container">
+                    <a href="{link}" target="_blank" rel="noopener noreferrer">
+                        <img class="poster-img" src="{row['Poster']}">
+                        <div class="poster-overlay">
+                            <div class="poster-label">
+                                Open on Letterboxd
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+        else:
+            st.image(row["Poster"], use_container_width=True)
