@@ -279,7 +279,7 @@ div.stButton > button span {
 @media (max-width: 768px) {
     div.stButton > button p,
     div.stButton > button span {
-        font-size: 22px !important;
+        font-size: 20px !important;
     }
 }
 
