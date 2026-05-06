@@ -95,7 +95,7 @@ st.markdown("""
 <style>
 /* Toggle label text */
 div[data-testid="stToggle"] label div[data-testid="stMarkdownContainer"] p {
-    font-size: 22px !important;
+    font-size: 24px !important;
 }
 
 /* Optional: slightly enlarge the switch too */
