@@ -108,7 +108,7 @@ div[data-testid="stToggle"] {
 
 include_non_horror_thrillers = st.toggle(
     'Include "Non-Horror" Thrillers',
-    value=False
+    value=True
 )
 
 # ----------------------------
